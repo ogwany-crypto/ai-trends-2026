@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>파트 2 놀이터 · 일하는 AI</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="../assets/page.css">
+<style>
+  .perms { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; margin: 12px 0; }
+  .perms label { display: flex; gap: 8px; align-items: center; font-size: 15px; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; cursor: pointer; }
+  .perms input { accent-color: var(--red); }
+  .perms small { margin-left: auto; color: var(--gray); }
+  .meter { height: 22px; background: var(--line); border-radius: 99px; overflow: hidden; margin-top: 10px; }
+  .meter i { display: block; height: 100%; width: 0; transition: width .25s, background .25s; }
+  table.res { border-collapse: collapse; width: 100%; font-size: 15px; margin-top: 10px; }
+  table.res td, table.res th { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="badge">파트 2</span><h1>놀이터 · 일하는 AI</h1>
+    <nav><a href="index.html#1">슬라이드</a><a href="quiz.html">퀴즈</a><a href="../index.html">목록</a></nav>
+  </header>
+  <p class="lede">슬라이드의 애니메이션(Doubling, AgentLoop)을 직접 조작하는 공간 · 모든 계산은 교육용 가정</p>
+
+  <!-- 1 시간 지평 계산기 -->
+  <section class="card" id="s1">
+    <h2><span class="n">01</span>시간 지평 계산기</h2>
+    <p class="muted">"지금 추세가 그대로 이어진다면" 언제 하루·1주·1달짜리 일을 AI가 혼자(50% 성공) 끝낼까? · 출발점: METR 최신 측정 16시간 이상(2026년 초) · 관련 장면: Doubling</p>
+    <div class="controls">
+      <label>배증 간격
+        <select id="h-d">
+          <option value="3">약 3개월 (2024년 이후 추세)</option>
+          <option value="4.3" selected>약 4.3개월 (2023년 이후 추세)</option>
+          <option value="7">약 7개월 (장기 추세)</option>
+        </select>
+      </label>
+      <label>출발 시간 지평 <input type="range" id="h-s" min="4" max="40" step="1" value="16"> <b id="h-sv">16시간</b></label>
+    </div>
+    <canvas id="h-cv" aria-label="시간 지평이 배증 간격대로 커지는 그래프"></canvas>
+    <table class="res" id="h-tab" aria-live="polite"></table>
+    <p class="stat muted">⚠ 가정: 배증 속도가 일정하게 유지된다는 단순 계산. METR은 "시간 지평 2배 ≠ 자동화 2배"라고 주의했고, 16시간 이상은 현재 과제로 잴 수 있는 한계 근처 · 근무 기준 1주 = 40시간, 1달 = 160시간</p>
+  </section>
+
+  <!-- 2 에이전트 권한 설계 -->
+  <section class="card" id="s2">
+    <h2><span class="n">02</span>에이전트 권한 설계</h2>
+    <p class="muted">맡길 업무를 고르고 에이전트에게 줄 권한을 체크 → 위험도 확인 · 관련 장면: AgentLoop, 2-4 "열쇠" 비유 · 점수는 강의자 구성(교육용)</p>
+    <div class="controls">
+      <label>업무
+        <select id="p-task">
+          <option value="report">월간 실적 보고서 초안</option>
+          <option value="mail">고객 문의 메일 답장</option>
+          <option value="trip">출장 항공·숙소 예약</option>
+        </select>
+      </label>
+    </div>
+    <div class="perms" id="p-list"></div>
+    <div class="meter"><i id="p-bar"></i></div>
+    <p class="stat" id="p-stat" aria-live="polite"></p>
+  </section>
+</div>
+
+<script>
+const RED = '#E22B2D', GRAY = '#8C8C8C', INK = '#3F3F3F', GRAY_L = '#D9D9D9';
+function setup(cv, h) {
+  const dpr = window.devicePixelRatio || 1, w = cv.clientWidth;
+  cv.width = w * dpr; cv.height = h * dpr; cv.style.height = h + 'px';
+  const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  g.font = '13px "Noto Sans KR", sans-serif'; return [g, w, h];
+}
+
+// ---------- 01 시간 지평 ----------
+const TARGETS = [['하루 업무', 8], ['1주 업무', 40], ['1달 업무', 160]];
+// 출발 h시간, 배증 d개월 → 목표 T시간까지 걸리는 개월 수
+const monthsTo = (h, d, T) => Math.log2(T / h) * d;
+console.assert(Math.abs(monthsTo(16, 4.3, 40) - 5.68) < 0.05, 'monthsTo');
+console.assert(monthsTo(16, 7, 8) < 0, 'already reached');
+function ym(m) { // 2026년 2월(출발) + m개월
+  const t = 2026 * 12 + 1 + Math.round(m); return `${Math.floor(t / 12)}년 ${t % 12 + 1}월`;
+}
+function drawH() {
+  const d = +document.getElementById('h-d').value, h0 = +document.getElementById('h-s').value;
+  document.getElementById('h-sv').textContent = `${h0}시간`;
+  const [g, w, H] = setup(document.getElementById('h-cv'), 300);
+  const L = 100, R = w - 20, T = 20, B = H - 40, M = 36;
+  const ly = v => B - (Math.log10(v) - Math.log10(2)) / (Math.log10(400) - Math.log10(2)) * (B - T);
+  const x = m => L + m / M * (R - L);
+  g.strokeStyle = INK; g.lineWidth = 1.5; g.beginPath(); g.moveTo(L, T); g.lineTo(L, B); g.lineTo(R, B); g.stroke();
+  g.fillStyle = INK; g.textAlign = 'center';
+  for (let m = 0; m <= M; m += 6) g.fillText(ym(m).replace('년 ', '.').replace('월', ''), x(m), B + 18);
+  TARGETS.forEach(([n, v]) => {
+    g.strokeStyle = GRAY_L; g.setLineDash([4, 4]); g.beginPath(); g.moveTo(L, ly(v)); g.lineTo(R, ly(v)); g.stroke(); g.setLineDash([]);
+    g.fillStyle = GRAY; g.textAlign = 'right'; g.fillText(`${n} ${v}h`, L - 6, ly(v) + 4);
+  });
+  g.strokeStyle = RED; g.lineWidth = 3; g.beginPath();
+  for (let m = 0; m <= M; m += 0.25) { const v = h0 * 2 ** (m / d); if (v > 400) break; m ? g.lineTo(x(m), ly(v)) : g.moveTo(x(m), ly(v)); }
+  g.stroke();
+  g.fillStyle = INK; g.beginPath(); g.arc(x(0), ly(h0), 5, 0, 7); g.fill();
+  document.getElementById('h-tab').innerHTML = '<tr><th>목표</th><th>걸리는 기간(가정)</th><th>도달 시점(가정)</th></tr>' +
+    TARGETS.map(([n, v]) => { const m = monthsTo(h0, d, v);
+      return m <= 0 ? `<tr><td>${n}(${v}시간)</td><td colspan="2"><b class="ok">출발점에서 이미 넘음</b> (50% 성공 기준)</td></tr>`
+        : `<tr><td>${n}(${v}시간)</td><td><b>약 ${m.toFixed(1)}개월</b></td><td>${ym(m)}</td></tr>`; }).join('');
+}
+document.getElementById('h-d').onchange = drawH;
+document.getElementById('h-s').oninput = drawH;
+
+// ---------- 02 권한 설계 ----------
+const PERMS = [
+  ['read', '문서·메일 읽기', 1], ['write', '초안 파일 쓰기·수정', 2], ['web', '외부 웹 검색·접속', 2],
+  ['pii', '고객 개인정보 접근', 4], ['send', '메일 발송·게시', 4], ['pay', '결제·예약 확정', 6], ['del', '데이터 삭제', 6],
+  ['human', '✋ 보내기·결제 전 사람 승인', 0]
+];
+const NEED = { report: ['read', 'write'], mail: ['read', 'write', 'send'], trip: ['read', 'web', 'pay'] };
+const box = document.getElementById('p-list');
+box.innerHTML = PERMS.map(([k, n, s]) => `<label><input type="checkbox" data-k="${k}">${n}<small>${k === 'human' ? '안전장치' : '위험 ' + s}</small></label>`).join('');
+function score(on) { // 권한 위험 합, 사람 승인이 있으면 보내기·결제 위험 절반
+  let s = 0; PERMS.forEach(([k, , v]) => { if (on.has(k)) s += (on.has('human') && (k === 'send' || k === 'pay')) ? v / 2 : v; }); return s;
+}
+console.assert(score(new Set(['read', 'write'])) === 3 && score(new Set(['pay', 'human'])) === 3, 'score');
+function drawP() {
+  const on = new Set([...box.querySelectorAll('input')].filter(c => c.checked).map(c => c.dataset.k));
+  const need = NEED[document.getElementById('p-task').value];
+  const s = score(on), pct = Math.min(100, s / 25 * 100);
+  const lv = s <= 3 ? ['낮음', '#1F7A4D'] : s <= 8 ? ['중간', '#C98A00'] : s <= 14 ? ['높음', RED] : ['매우 높음', '#8E0F11'];
+  const bar = document.getElementById('p-bar'); bar.style.width = pct + '%'; bar.style.background = lv[1];
+  const missing = need.filter(k => !on.has(k)), extra = [...on].filter(k => k !== 'human' && !need.includes(k));
+  const name = k => PERMS.find(p => p[0] === k)[1];
+  let msg = `위험 점수 <b>${s}</b> · 위험도 <b style="color:${lv[1]}">${lv[0]}</b>`;
+  if (!on.size) msg = '권한을 하나씩 체크해 보세요 · 이 업무에 필요한 권한: ' + need.map(name).join(', ');
+  else {
+    if (missing.length) msg += `<br>이 업무에 필요한데 빠진 권한: ${missing.map(name).join(', ')}`;
+    if (extra.length) msg += `<br><span class="bad">필요 이상 권한</span>: ${extra.map(name).join(', ')} → 빼기 권장(최소 권한)`;
+    if (!missing.length && !extra.length) msg += '<br><span class="ok">필요한 권한만 딱 맞게 설계</span>';
+    if ((on.has('send') || on.has('pay')) && !on.has('human')) msg += '<br>보내기·결제가 있으면 사람 승인 단계 추가 권장';
+  }
+  document.getElementById('p-stat').innerHTML = msg;
+}
+box.onchange = drawP;
+document.getElementById('p-task').onchange = drawP;
+
+addEventListener('resize', drawH);
+document.fonts.ready.then(drawH);
+drawH(); drawP();
+</script>
+</body>
+</html>

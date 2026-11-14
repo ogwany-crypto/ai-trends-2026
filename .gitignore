@@ -1,0 +1,6 @@
+# GitHub Pages 배포용 저장소: docs/ (웹 결과물)와 README만 올림
+/*
+!/docs/
+!/.gitignore
+!/README.md
+.DS_Store

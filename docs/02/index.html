@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>파트 2 일하는 AI: 에이전트·로봇·과학</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="../assets/deck.css">
+<style>
+  .cover { flex-direction: row !important; align-items: center; justify-content: space-between; padding: 128px !important; }
+  .cover::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 24px; background: var(--red); }
+  .toc-item { display: flex; align-items: center; gap: 40px; padding: 26px 0; border-bottom: 2px solid var(--red-l); }
+  .toc-item:last-child { border-bottom: none; }
+  .toc-item b { font-size: 52px; font-weight: 900; color: var(--red); width: 100px; }
+  .toc-item span { font-size: 40px; font-weight: 500; }
+  table.tbl { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden;
+    box-shadow: 0 4px 16px rgba(63,63,63,.08); font-size: 28px; }
+  table.tbl th { background: var(--red); color: #fff; font-weight: 700; text-align: left; padding: 16px 22px; }
+  table.tbl td { padding: 14px 22px; border-bottom: 2px solid var(--line); vertical-align: top; line-height: 1.4; }
+  table.tbl tr:last-child td { border-bottom: none; }
+  table.tbl td.k { font-weight: 700; white-space: nowrap; }
+  .tag { display: inline-block; font-size: 20px; font-weight: 700; color: var(--gray); border: 2px solid var(--line);
+    border-radius: 8px; padding: 0 8px; margin-left: 6px; vertical-align: 3px; white-space: nowrap; }
+  .src { font-size: 22px; color: var(--gray); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; flex: 1; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; flex: 1; align-items: stretch; }
+  .paper { background: var(--card); border-top: 8px solid var(--red); border-radius: 12px; padding: 28px 32px;
+    box-shadow: 0 4px 16px rgba(63,63,63,.08); display: flex; flex-direction: column; gap: 12px; }
+  .paper .n { font-size: 22px; font-weight: 700; color: var(--gray); }
+  .paper h4 { font-size: 28px; font-weight: 700; line-height: 1.3; }
+  .paper p { font-size: 26px; line-height: 1.45; }
+  .paper .why { color: var(--red); font-weight: 700; }
+  .step { display: flex; gap: 20px; align-items: flex-start; }
+  .step b { flex: none; width: 56px; height: 56px; border-radius: 50%; background: var(--red); color: #fff; font-size: 28px;
+    display: grid; place-items: center; }
+  .step div { font-size: 28px; line-height: 1.45; }
+  .step div strong { display: block; font-size: 32px; }
+  .big-q { font-size: 64px; font-weight: 900; line-height: 1.4; text-align: center; }
+</style>
+</head>
+<body>
+<div class="progress"></div>
+<div class="stage">
+
+<!-- 1 표지 -->
+<section class="slide cover">
+  <div style="display:flex;flex-direction:column;gap:30px;width:1060px">
+    <p style="font-size:120px;font-weight:900;color:var(--red);line-height:1">02</p>
+    <p style="font-size:34px;font-weight:500;color:var(--gray)">2026 AI 트렌드 — 말하는 AI에서 일하는 AI로</p>
+    <h1 style="font-size:92px;font-weight:900;line-height:1.15">일하는 AI<br><span style="font-size:60px">에이전트·로봇·과학</span></h1>
+    <hr style="width:160px;border:none;border-top:6px solid var(--red)">
+    <p style="font-size:28px;color:var(--gray)">직장인을 위한 3시간 교육 발표 · 파트 2 · 기준일 2026.11.14 · 발표 : ○○○</p>
+  </div>
+  <img class="fig" src="assets/cover.png" alt="계획·도구·확인이 도는 순환 고리 그림" style="width:560px;height:743px">
+  <aside class="note">파트 2(약 55분). 파트 1에서 "AI가 어디까지 왔나"를 봤다면, 파트 2는 "AI가 실제로 일을 맡기 시작했다"는 이야기. 휴식 직후이므로 가볍게 시작.</aside>
+</section>
+
+<!-- 2 목차 -->
+<section class="slide" style="flex-direction:row;align-items:center;gap:96px;padding:128px">
+  <div style="display:flex;flex-direction:column;gap:24px;width:520px">
+    <p style="font-size:32px;font-weight:700;color:var(--red);letter-spacing:4px">CONTENTS</p>
+    <h2 style="font-size:72px;font-weight:900;line-height:1.15">파트 2<br>일하는 AI</h2>
+    <hr style="width:120px;border:none;border-top:6px solid var(--red)">
+  </div>
+  <div style="flex:1">
+    <div class="toc-item"><b>01</b><span>챗봇에서 에이전트로 · 혼자 일하는 시간</span></div>
+    <div class="toc-item"><b>02</b><span>내 업무에 에이전트 쓰기</span></div>
+    <div class="toc-item"><b>03</b><span>에이전트의 그림자</span></div>
+    <div class="toc-item"><b>04</b><span>피지컬 AI: 몸을 가진 AI</span></div>
+    <div class="toc-item"><b>05</b><span>과학자가 된 AI · 올해의 논문 5편</span></div>
+  </div>
+</section>
+
+<!-- 3 목표 -->
+<section class="slide" style="flex-direction:row;align-items:center;gap:80px;padding:128px">
+  <img class="fig" src="assets/goal.png" alt="2배씩 커지는 막대 그림" style="width:700px;height:525px">
+  <div class="col" style="gap:36px">
+    <h2 style="font-size:72px;font-weight:900">이 파트의 목표</h2>
+    <div class="card"><p style="font-size:28px;font-weight:700;color:var(--red)">목표 1</p><p style="font-size:34px;font-weight:500">챗봇과 에이전트의 차이, "혼자 일하는 시간"의 의미 설명</p></div>
+    <div class="card"><p style="font-size:28px;font-weight:700;color:var(--red)">목표 2</p><p style="font-size:34px;font-weight:500">내 업무 하나를 에이전트에게 맡길 때 나눌 단계와 줄 권한 정하기</p></div>
+  </div>
+</section>
+
+<!-- 4 오늘의 질문 -->
+<section class="slide" style="justify-content:center;align-items:center;gap:56px">
+  <p style="font-size:36px;font-weight:700;color:var(--red);letter-spacing:4px">파트 2의 질문</p>
+  <p class="big-q">"보고서 초안 써 줘"와<br>"다음 주 출장, 처음부터 끝까지 처리해 줘"<br><span style="color:var(--red)">무엇이 다를까?</span></p>
+  <aside class="note">손들기: "AI에게 한 번에 여러 단계짜리 일을 맡겨 본 분?" 앞의 요청 = 한 번의 대답(챗봇), 뒤의 요청 = 항공권 검색·일정 확인·결재 요청·보고까지 여러 단계(에이전트). 오늘 파트 2 전체가 이 차이에 대한 이야기.</aside>
+</section>
+
+<!-- 5 2-1 비유: 택시 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-1</span><h2>챗봇에서 에이전트로</h2></div><p class="sub">[비유] 안내원과 택시 기사</p></div>
+  <div class="row">
+    <div class="photo"><img src="assets/photos/taxi.jpg" alt="도로를 달리는 택시" style="width:760px;height:570px"><p class="credit">사진: 2 million+ views. Humbled and thanks! / CC BY 2.0</p></div>
+    <div class="col">
+      <h3>택시 기사 = 에이전트</h3>
+      <ul class="b">
+        <li>챗봇 = 길을 알려 주는 안내원</li>
+        <li>에이전트 = 목적지만 말하면 데려다주는 기사</li>
+        <li>스스로 경로 계획·도로 선택·도착 확인</li>
+        <li>대신 운전대를 맡기는 일 → 신뢰와 규칙 필요</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="note">2026년을 한 단어로 = 에이전트(agent). "대답"에서 "일을 끝내기"로. 택시의 장점(편함)과 위험(엉뚱한 길, 요금)이 그대로 에이전트의 장단점. 2-4절 "그림자"에서 회수.</aside>
+</section>
+
+<!-- 6 2-1 애니메이션 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-1</span><h2>챗봇에서 에이전트로</h2></div><p class="sub">에이전트(agent): 목표 → 계획 → 도구 사용 → 결과 확인을 끝날 때까지 반복</p></div>
+  <video class="anim" src="assets/anim/AgentLoop.mp4" poster="assets/anim/AgentLoop_poster.png" muted playsinline preload="metadata" style="width:1360px;height:680px"></video>
+  <aside class="note">애니메이션: "출장 보고서 작성"이라는 목표 하나로 계획·도구·확인을 두 바퀴 돌고 완료. 도구 = 메일, 파일, 검색, 결제, 코드 실행 등. 예시 목표는 강의자 구성.</aside>
+</section>
+
+<!-- 7 2-1 2026 장면 표 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-1</span><h2>챗봇에서 에이전트로</h2></div><p class="sub">2026년, 에이전트가 주인공이 된 장면들</p></div>
+  <table class="tbl">
+    <tr><th style="width:190px">시기</th><th>장면</th><th style="width:150px">표기</th></tr>
+    <tr><td class="k">3월</td><td>엔비디아 GTC: 에이전틱 AI가 핵심 화두, 'Vera Rubin' 플랫폼 공개</td><td>[보도]</td></tr>
+    <tr><td class="k">5월</td><td>구글 I/O: 클라우드에서 24시간 일하는 개인 에이전트 '제미나이 스파크'</td><td>[보도]</td></tr>
+    <tr><td class="k">6월</td><td>애플 WWDC: 새 시리 'Siri AI'</td><td>[보도]</td></tr>
+    <tr><td class="k">9월</td><td>메타 일상 업무 에이전트 'Muse', 오픈AI 개인 에이전트 시스템 'Dots'</td><td>[보도]</td></tr>
+    <tr><td class="k">상반기</td><td>오픈소스 에이전트 'OpenClaw', 약 4개월 만에 GitHub 스타 수로 React 추월</td><td>[보도]</td></tr>
+    <tr><td class="k">기업</td><td>가트너: 2026년 말 기업용 앱의 40%에 에이전트 탑재 전망</td><td>[보도]</td></tr>
+  </table>
+  <p class="src">출처: SK텔레콤 뉴스룸 「2026 상반기 AI 트렌드 결산」(2026.7), Wikipedia 「2026 in artificial intelligence」, 가트너 전망 인용 보도 · [보도]</p>
+  <aside class="note">출처 URL: https://news.sktelecom.com/227730 , https://en.wikipedia.org/wiki/2026_in_artificial_intelligence (위키 문서에는 "사실 확인 필요" 표시). 가트너 40%는 SKT 뉴스룸 「2026년 AI 트렌드 5가지 키워드」(https://news.sktelecom.com/218116) 인용. "1월 기준 조직의 43%가 에이전트 운영"은 블로그 인용이라 본문에서 제외. 말할 거리: 큰 회사 발표회의 주제가 모두 "에이전트"였던 해.</aside>
+</section>
+
+<!-- 8 2-2 비유: 보조 바퀴 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-2</span><h2>AI가 혼자 일하는 시간</h2></div><p class="sub">[비유] 보조 바퀴 자전거</p></div>
+  <div class="row">
+    <div class="photo"><img src="assets/photos/training_wheels.jpg" alt="보조 바퀴를 단 자전거를 타는 아이" style="width:760px;height:570px"><p class="credit">사진: Jenn Durfey / CC BY 2.0</p></div>
+    <div class="col">
+      <h3>혼자 달리는 거리 = 시간 지평</h3>
+      <ul class="b">
+        <li>처음엔 몇 미터, 이제는 동네 한 바퀴</li>
+        <li>시간 지평(time horizon): AI가 혼자 끝내는 작업의 길이</li>
+        <li>사람 전문가가 걸리는 시간으로 측정</li>
+        <li>동네 한 바퀴 ≠ 큰길 운전 → 한계도 함께</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="note">METR(미국 비영리 평가 기관)의 지표. 정의: 사람 전문가가 X시간 걸리는 작업을 AI가 50% 확률로 성공하면 시간 지평 = X시간. "성공률 50%"라는 점을 꼭 강조 — 반은 실패한다는 뜻.</aside>
+</section>
+
+<!-- 9 2-2 그래프 G5 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-2</span><h2>AI가 혼자 일하는 시간</h2></div><p class="sub">몇 분 → 16시간 이상: 몇 달마다 2배</p></div>
+  <div class="row" style="gap:48px">
+    <img class="fig" src="assets/g5_time_horizon.png" alt="시간 지평 로그 눈금 추세 개념도" style="width:1100px;height:556px">
+    <div class="col" style="gap:20px">
+      <ul class="b" style="font-size:28px">
+        <li>장기 추세: 약 7개월마다 2배</li>
+        <li>2023년 이후: 약 4.3개월에 2배</li>
+        <li>최신 측정: 16시간 이상</li>
+        <li>16시간 = 지금 잴 수 있는 한계 근처</li>
+      </ul>
+    </div>
+  </div>
+  <p class="src">출처: METR 「Time Horizon 1.1」(2026.1), METR 최신 측정(Claude Mythos, 50% 시간 지평 16시간 이상, 95% 구간 8.5~55시간) · [공식] — 선은 발표된 배증 속도로 그린 추세 개념도</p>
+  <aside class="note">출처: https://metr.org/blog/2026-01-29-time-horizon-1-1/ , 한계: https://metr.org/notes/2026-01-22-time-horizon-limitations/ . 2024년 이후만 보면 약 3개월(88.6일) 배증. 그래프의 선은 실제 측정점을 이은 것이 아니라 METR이 발표한 배증 속도를 최신 측정점에 맞춰 그린 개념도. 점선(2026년 이후)은 같은 속도가 계속된다는 가정. METR 스스로 "시간 지평 2배 ≠ 자동화 2배"라고 주의. SNS의 "105일" 수치는 METR 공식 수치가 아니어서 제외.</aside>
+</section>
+
+<!-- 10 2-2 애니메이션 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-2</span><h2>AI가 혼자 일하는 시간</h2></div><p class="sub">2배씩 커지는 작업 길이, 그러나 2배 ≠ 자동화 2배</p></div>
+  <video class="anim" src="assets/anim/Doubling.mp4" poster="assets/anim/Doubling_poster.png" muted playsinline preload="metadata" style="width:1360px;height:680px"></video>
+  <aside class="note">애니메이션: 1시간 → 2 → 4 → 8(하루) → 16시간+(최신 측정). 앞의 막대(1~8시간)는 2배씩의 원리를 보여 주는 단계 예시이고, 실제 측정값은 마지막 막대만. 말할 거리: "하루치 일을 반쯤은 혼자 끝내는 수준"이지만 회사 업무는 도중에 사람 확인이 필요한 일이 대부분.</aside>
+</section>
+
+<!-- 11 2-2 토론 -->
+<section class="slide" style="justify-content:center;align-items:center;gap:48px">
+  <p style="font-size:36px;font-weight:700;color:var(--red);letter-spacing:4px">2분 짝 토론</p>
+  <p class="big-q">내 업무 중 "4시간짜리 일" 하나를<br>AI에게 맡긴다면?</p>
+  <div class="grid3" style="flex:none;width:1500px">
+    <div class="card"><h3 style="font-size:34px">무엇을</h3><p style="font-size:28px">어떤 일인가</p></div>
+    <div class="card"><h3 style="font-size:34px">어디까지</h3><p style="font-size:28px">AI가 끝낼 단계</p></div>
+    <div class="card"><h3 style="font-size:34px">누가 확인</h3><p style="font-size:28px">사람이 볼 단계</p></div>
+  </div>
+  <aside class="note">짝과 2분. 3~4명 발표. 다음 장(2-3)의 워크시트로 이어짐. 예시: 월간 실적 보고서 초안, 경쟁사 공개 자료 정리, 회의록 → 할 일 목록.</aside>
+</section>
+
+<!-- 12 2-3 직무별 활용 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-3</span><h2>내 업무에 에이전트 쓰기</h2></div><p class="sub">직무별로 맡길 수 있는 장면</p></div>
+  <table class="tbl" style="font-size:27px">
+    <tr><th style="width:200px">직무</th><th>에이전트에게 맡길 일 (예시)</th><th style="width:430px">사람이 꼭 볼 것</th></tr>
+    <tr><td class="k">기획</td><td>시장 자료 수집·요약, 보고서 초안, 회의록 → 할 일 목록</td><td>결론·숫자 출처</td></tr>
+    <tr><td class="k">영업</td><td>고객사 공개 정보 정리, 제안서 초안, 미팅 후 기록 정리</td><td>가격·약속 문구</td></tr>
+    <tr><td class="k">마케팅</td><td>캠페인 문구 여러 안, 성과 데이터 정리, 경쟁사 동향</td><td>브랜드·법적 표현</td></tr>
+    <tr><td class="k">인사</td><td>채용 공고 초안, 교육 자료 정리, 자주 묻는 질문 답변</td><td>평가·차별 소지</td></tr>
+    <tr><td class="k">재무</td><td>비용 분류, 정산 자료 대조, 월말 보고 초안</td><td>최종 숫자·승인</td></tr>
+    <tr><td class="k">고객지원</td><td>상담 내용 요약·분류, 답변 초안, 반복 문의 처리</td><td>예외·불만 고객</td></tr>
+  </table>
+  <p class="src">직무별 예시는 강의자 구성 · 참고: 의료 기록 자동 작성으로 의사 기록 시간 최대 83% 감소 [공식: 스탠퍼드 AI 인덱스 2026], 코딩 에이전트의 실무 도입 [보도]</p>
+  <aside class="note">표의 예시는 강의자 구성(특정 기업 사례 아님). 공식 수치는 아래 줄의 의료 83%(https://hai.stanford.edu/news/inside-the-ai-index-12-takeaways-from-the-2026-report). 코딩 에이전트(Claude Code, Codex, Cursor 등)의 실무 도입은 국내 보도. 청중에게 자기 직무 줄을 짚어 보게 함. "사람이 꼭 볼 것" 열이 핵심.</aside>
+</section>
+
+<!-- 13 2-3 워크시트 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-3</span><h2>내 업무에 에이전트 쓰기</h2></div><p class="sub">워크시트: 내 업무 하나를 에이전트에게</p></div>
+  <div class="grid2">
+    <div class="col" style="gap:26px">
+      <div class="step"><b>1</b><div><strong>업무 쪼개기</strong>한 업무를 5~7단계로 나누기</div></div>
+      <div class="step"><b>2</b><div><strong>맡길 단계 고르기</strong>반복적·자료 중심 단계에 표시</div></div>
+      <div class="step"><b>3</b><div><strong>사람이 확인할 단계</strong>숫자·대외 발송·결재 직전</div></div>
+      <div class="step"><b>4</b><div><strong>줄 권한 정하기</strong>읽기 / 쓰기 / 보내기 / 결제 중 최소한</div></div>
+    </div>
+    <div class="card" style="gap:16px">
+      <h3 style="font-size:36px">예: 월간 실적 보고</h3>
+      <p style="font-size:27px;line-height:1.55">① 데이터 내려받기 <span class="tag">AI</span><br>② 표·그래프 만들기 <span class="tag">AI</span><br>③ 전월 대비 변화 요약 <span class="tag">AI</span><br>④ 이상한 숫자 확인 <span class="tag">사람</span><br>⑤ 해석·제언 작성 <span class="tag">함께</span><br>⑥ 팀장 보고 <span class="tag">사람</span></p>
+      <p style="font-size:24px;color:var(--gray)">권한: 데이터 읽기 + 초안 파일 쓰기만</p>
+    </div>
+  </div>
+  <p class="src">비용 관리도 업무의 일부: 구글 'AI 울트라' 월 100달러 [보도: SKT 결산], 애플이 엔지니어 1인 하루 AI 예산을 200달러로 제한했다는 보도 [보도]</p>
+  <aside class="note">실습 3분: 각자 종이에 1~4단계를 써 보기. 예시 보고서는 강의자 구성. 애플 200달러 보도는 11월 국내 뉴스 헤드라인 모음 기준(https://www.wp-kr.com/issue/?mod=document&uid=2400)이라 원문 확인 권장. 말할 거리: 에이전트는 "쓸수록 돈이 드는 직원" — 사용량 비용을 관리해야 함.</aside>
+</section>
+
+<!-- 14 2-4 비유: 열쇠 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-4</span><h2>에이전트의 그림자</h2></div><p class="sub">[비유] 도우미에게 맡긴 집 열쇠</p></div>
+  <div class="row">
+    <div class="photo"><img src="assets/photos/keys.jpg" alt="집 열쇠 하나" style="width:760px;height:570px"><p class="credit">사진: Wikimedia Commons "House key" / CC BY-SA 3.0</p></div>
+    <div class="col">
+      <h3>열쇠 = 에이전트에게 준 권한</h3>
+      <ul class="b">
+        <li>현관 열쇠만? 금고 열쇠까지?</li>
+        <li>권한이 클수록 편하지만 사고도 커짐</li>
+        <li>어떤 방 열쇠를 줄지는 사람이 결정</li>
+        <li>원칙: 필요한 열쇠만 (최소 권한)</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="note">"최소 권한(least privilege)"은 보안의 기본 원칙. 에이전트에게는 메일 읽기만 필요한지, 보내기까지 필요한지, 결제까지 필요한지 업무별로 정함. 다음 장의 실제 사고 사례로 연결.</aside>
+</section>
+
+<!-- 15 2-4 사고 연표 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-4</span><h2>에이전트의 그림자</h2></div><p class="sub">2026년에 보도된 사고와 경고</p></div>
+  <table class="tbl" style="font-size:27px">
+    <tr><th style="width:170px">시기</th><th>내용</th><th style="width:150px">표기</th></tr>
+    <tr><td class="k">1월</td><td>그록(Grok)의 비동의 성적 딥페이크 생성 → 인도네시아·말레이시아·필리핀 접속 차단 후 해제</td><td>[보도]</td></tr>
+    <tr><td class="k">7월</td><td>오픈AI, 자사 모델들이 허깅페이스 데이터 처리 시스템을 자율적으로 해킹했다고 발표 ("AI 에이전트의 첫 자율 사이버 공격")</td><td>[보도]</td></tr>
+    <tr><td class="k">7월</td><td>AI 기업 직원·임원 1,100여 명, 자동화된 AI 개발 속도 조절을 요청하는 공개서한</td><td>[보도]</td></tr>
+    <tr><td class="k">9월</td><td>호주 총리, 6월 오픈AI 에이전트의 메디케어 시스템 침해를 발표</td><td>[보도]</td></tr>
+    <tr><td class="k">11월 초</td><td>AI 개발 플랫폼 9곳을 노린 조직적 침해("LLMJacking") 보도</td><td>[보도]</td></tr>
+  </table>
+  <p class="src">출처: Wikipedia 「2026 in artificial intelligence」(사실 확인 필요 표시 있음), 2026년 11월 AI 뉴스 정리 기사 · [보도] — 세부 경위는 아직 확인 중</p>
+  <aside class="note">출처: https://en.wikipedia.org/wiki/2026_in_artificial_intelligence (9월 이후 항목에 "factual verification" 표시), LLMJacking: https://etcjournal.com/2026/11/02/top-ai-stories-for-oct-30-nov-2-2026-ai-requiring-less-human-input/ 등 주간 정리. 발표 직전 원문 확인 권장. 말할 거리: 사고의 공통점 = 에이전트에게 준 권한이 넓었거나, 사람이 확인하지 않은 실행.</aside>
+</section>
+
+<!-- 16 2-4 회사 업무용 체크 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-4</span><h2>에이전트의 그림자</h2></div><p class="sub">회사에서 쓰기 전 체크리스트</p></div>
+  <div class="row" style="gap:56px;align-items:stretch">
+    <table class="tbl" style="flex:1.2;font-size:28px">
+      <tr><th>권한</th><th>예</th><th style="width:200px">위험</th></tr>
+      <tr><td class="k">읽기</td><td>문서·메일 읽고 요약</td><td>낮음</td></tr>
+      <tr><td class="k">쓰기</td><td>초안 파일 만들기·수정</td><td>중간</td></tr>
+      <tr><td class="k">보내기</td><td>메일 발송, 메신저 게시</td><td>높음</td></tr>
+      <tr><td class="k">결제·삭제</td><td>구매, 송금, 데이터 삭제</td><td style="color:var(--red);font-weight:700">매우 높음</td></tr>
+    </table>
+    <div class="card" style="flex:1;justify-content:center">
+      <h3 style="font-size:36px">업무 규칙 3가지</h3>
+      <ul class="b" style="font-size:29px">
+        <li>사내 데이터 입력 기준: 개인정보·영업비밀 금지</li>
+        <li>결과 검증 책임: 최종 확인은 사람</li>
+        <li>권한 승인 절차: 보내기·결제는 사전 승인</li>
+      </ul>
+    </div>
+  </div>
+  <p class="src">위험도 구분과 규칙은 강의자 구성(보안의 최소 권한 원칙 적용) · 놀이터에서 직접 권한 설계 체험</p>
+  <aside class="note">위험 등급은 강의자의 일반적 구분. 회사마다 보안 정책이 우선. 놀이터의 "에이전트 권한 설계"에서 체크박스로 직접 해 보도록 안내.</aside>
+</section>
+
+<!-- 17 2-5 비유: 공장 로봇 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-5</span><h2>피지컬 AI: 몸을 가진 AI</h2></div><p class="sub">[비유] 도로 주행 연습 중인 면허 필기 만점자</p></div>
+  <div class="row">
+    <div class="photo"><img src="assets/photos/factory.jpg" alt="로봇 팔이 늘어선 자동차 조립 공장" style="width:760px;height:570px"><p class="credit">사진: jurvetson / CC BY 2.0</p></div>
+    <div class="col">
+      <h3>피지컬 AI = 화면 밖으로 나온 AI</h3>
+      <ul class="b">
+        <li>로봇·자율주행차·공장 설비에 들어간 AI</li>
+        <li>필기(언어·계산)는 만점, 도로 주행(실제 세계)은 연습 중</li>
+        <li>CES 2026: 양산형 휴머노이드 대거 공개</li>
+        <li>GTC 2026: 로봇 110대 전시</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="note">출처: SKT 뉴스룸 2026 상반기 결산(https://news.sktelecom.com/227730) [보도]. 사진은 기존 산업용 로봇 팔 공장(휴머노이드 아님) — "이미 있는 공장 로봇에 AI 두뇌가 붙는 흐름"으로 설명. 휴머노이드(humanoid) = 사람 모양 로봇.</aside>
+</section>
+
+<!-- 18 2-5 그래프 G6 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-5</span><h2>피지컬 AI: 몸을 가진 AI</h2></div><p class="sub">휴머노이드: 발표된 목표 vs 확인된 실적</p></div>
+  <div class="row" style="gap:48px">
+    <img class="fig" src="assets/g6_humanoid.png" alt="휴머노이드 목표와 실적 비교 막대" style="width:1060px;height:557px">
+    <div class="col" style="gap:20px">
+      <ul class="b" style="font-size:28px">
+        <li>점선 = 목표·계획, 빨강 = 확인된 숫자</li>
+        <li>전 세계 운영 약 7,000~8,000대(추정)</li>
+        <li>로봇의 실제 집안일 성공률 12%</li>
+        <li>로보택시(웨이모·죽스) 서비스 확대</li>
+      </ul>
+    </div>
+  </div>
+  <p class="src">출처: 현대차 아틀라스 계획·유니트리 상장 서류 [보도], 피겨 목표·배치 수와 운영 대수 [추적: 휴머노이드 배치 추적 사이트], 집안일 12% [공식: 스탠퍼드 AI 인덱스 2026]</p>
+  <aside class="note">피겨 확인 배치 약 150대(2026.5)와 전 세계 운영 대수는 추적 사이트(https://humanoidapplications.com/deployments/) 기준으로 출처마다 다름. 유니트리 2025년 출하 5,500대 이상은 상장 서류 보도(점유율 주장은 옴디아가 반박). 테슬라 옵티머스는 수치가 서로 크게 엇갈려 그래프에서 제외. 말할 거리: "발표"와 "현장"의 차이 — 투자 뉴스를 볼 때 목표인지 실적인지 확인.</aside>
+</section>
+
+<!-- 19 2-6 비유: 실험실 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-6</span><h2>과학자가 된 AI</h2></div><p class="sub">[비유] 아이디어가 넘치는 신입 연구원</p></div>
+  <div class="row">
+    <div class="photo"><img src="assets/photos/lab.jpg" alt="실험실 유리 기구" style="width:760px;height:570px"><p class="credit">사진: LukaszKatlewa / CC BY 4.0</p></div>
+    <div class="col">
+      <h3>AI 과학자 = 신입 연구원</h3>
+      <ul class="b">
+        <li>빠르게 가설·계산·설계를 쏟아 냄</li>
+        <li>대발견을 들고 와도 선배의 검증 필요</li>
+        <li>자연·물리·생명과학 AI 논문 전년 대비 26~28% 증가</li>
+        <li>"발표"와 "검증"을 구분하는 눈이 필요</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="note">26~28%는 스탠퍼드 AI 인덱스 2026 [공식]. 과학 AI는 직장인에게도 신약·소재·기상 등 산업 변화로 이어짐.</aside>
+</section>
+
+<!-- 20 2-6 성과 표 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-6</span><h2>과학자가 된 AI</h2></div><p class="sub">2026년 과학 AI의 장면들 — 표기를 함께 읽기</p></div>
+  <table class="tbl" style="font-size:27px">
+    <tr><th>성과</th><th style="width:250px">표기</th></tr>
+    <tr><td>AI가 원시 기상 관측부터 기온·바람·습도 예측까지 전 과정 수행 (처음)</td><td>[공식] AI 인덱스</td></tr>
+    <tr><td>10개 망원경 관측을 자동화하는 첫 천문학 기반 모델</td><td>[공식] AI 인덱스</td></tr>
+    <tr><td>생성형 AI로 새 박테리오파지(세균을 잡는 바이러스) 유전체 설계 (8월)</td><td>[보도]</td></tr>
+    <tr><td>수학 난제(국소 평활화 추측) 증명·지수 시간 가설 반증 발표 (10월, 오픈AI)</td><td style="color:var(--red);font-weight:700">[주장] 검토 중</td></tr>
+    <tr><td>필즈상 수상자 28명, 공개서한 「수학에서 AI의 심각한 오정렬」 (9월)</td><td>[보도]</td></tr>
+    <tr><td>의료 AI 연구 500여 건 중 실제 환자 데이터를 쓴 연구 5%</td><td>[공식] AI 인덱스</td></tr>
+  </table>
+  <p class="src">출처: 스탠퍼드 AI 인덱스 2026, Wikipedia 「2026 in artificial intelligence」, Al Jazeera(2026.10.27)</p>
+  <aside class="note">수학 발표: https://www.aljazeera.com/economy/2026/10/27/ai-makes-discoveries-in-mathematics-computer-science-physics-openai-says — 로체스터대 이오시에비치 교수는 "역사적", MIT 라이언 윌리엄스 교수는 "검토 중". 물리학 결과는 공개 연기. 같은 기사에 앤트로픽의 효소 발견 주장도 평가가 엇갈림. 위키 연표의 나비에-스토크스·카케야 관련 항목은 사실 확인 필요 표시가 있어 본문에서 제외.</aside>
+</section>
+
+<!-- 21 2-6 애니메이션 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-6</span><h2>과학자가 된 AI</h2></div><p class="sub">발표 → 전문가 검토 → 다른 팀 재현 → 교과서</p></div>
+  <video class="anim" src="assets/anim/VerifyLadder.mp4" poster="assets/anim/VerifyLadder_poster.png" muted playsinline preload="metadata" style="width:1360px;height:680px"></video>
+  <aside class="note">애니메이션: "새 발견" 카드가 계단을 끝까지 올라갔다가 현재 위치(②)로 돌아옴. 10월 수학 발표는 기사 시점 기준 전문가 검토 단계. 직장인 팁: 업무 보고에 AI 관련 "발견" 뉴스를 인용할 때 몇 번째 계단인지 함께 적기.</aside>
+</section>
+
+<!-- 22 2-7 논문 1~3 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-7</span><h2>올해의 논문 5편 쉽게 읽기</h2></div><p class="sub">① ~ ③</p></div>
+  <div class="grid3">
+    <div class="paper"><p class="n">① METR · 2026.1 <span class="tag">[공식]</span></p><h4>Time Horizon 1.1</h4><p>AI가 혼자 끝내는 일의 길이를 재는 자를 새로 만듦</p><p class="why">"AI에게 얼마나 맡길 수 있나"의 표준 지표</p></div>
+    <div class="paper"><p class="n">② ICML 2026 우수논문 장려상 <span class="tag">[공식]</span></p><h4>How much can language models memorize?</h4><p>언어 모델은 파라미터 하나당 약 3.6비트를 외움</p><p class="why">개인정보·저작권 "암기" 논쟁의 과학적 근거</p></div>
+    <div class="paper"><p class="n">③ ICML 2026 우수논문 <span class="tag">[공식]</span></p><h4>The Flexibility Trap</h4><p>아무 순서로나 글을 쓰는 새 방식(확산 언어 모델)이 어려운 단어를 건너뛰어 답의 다양성을 줄임</p><p class="why">"더 자유로운 방식 = 더 좋음"이 아님</p></div>
+  </div>
+  <p class="src">출처: METR 블로그, ICML 2026 수상 발표(blog.icml.cc, 2026.7.5)</p>
+  <aside class="note">② Morris 외. 파라미터 = 모델 안의 조절 손잡이 수. 3.6비트/파라미터는 GPT 계열 기준 추정. ③ Ni 외. 확산(diffusion) 언어 모델 = 이미지 생성처럼 글 전체를 조금씩 다듬어 완성하는 방식. 출처: https://blog.icml.cc/2026/07/05/announcing-the-icml-2026-awards/</aside>
+</section>
+
+<!-- 23 2-7 논문 4~5 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-7</span><h2>올해의 논문 5편 쉽게 읽기</h2></div><p class="sub">④ ~ ⑤ + 덤</p></div>
+  <div class="grid3">
+    <div class="paper"><p class="n">④ ICLR 2026 우수논문 <span class="tag">[추적]</span></p><h4>LLMs Get Lost In Multi-Turn Conversation</h4><p>대화가 길어지면 AI가 앞선 맥락을 놓치고 성능이 떨어짐</p><p class="why">업무 팁: 중요한 요청은 한 번에 정리해서</p></div>
+    <div class="paper"><p class="n">⑤ 스탠퍼드 디지털경제연구소 · 2026.8 업데이트 <span class="tag">[보도]</span></p><h4>Canaries in the Coal Mine</h4><p>AI 노출 직종의 22~25세 고용이 예상보다 19% 낮음</p><p class="why">AI의 일자리 영향이 "신입 채용 감소"로 먼저 나타남</p></div>
+    <div class="paper"><p class="n">덤 · ICML 2026 우수 입장 논문 <span class="tag">[공식]</span></p><h4>정렬 연구가 의도치 않게 검열 도구를 만들고 있다</h4><p>AI를 "바르게" 만드는 기술이 검열에 악용될 수 있음</p><p class="why">안전 기술에도 양면성</p></div>
+  </div>
+  <p class="src">출처: ICLR 2026 수상 목록(GitHub 집계, 출처별 차이 있음), 스탠퍼드 "Canaries" 업데이트 2차 요약, ICML 2026 수상 발표</p>
+  <aside class="note">④ 수상 목록이 집계마다 달라 [추적] — 공식 ICLR 블로그로 확인 권장. ⑤ 원 논문(2025.8)의 2026.8 업데이트 수치는 2차 요약 기준, 해고보다 채용 감소가 주원인. 파트 3의 일자리 절에서 다시 다룸. 덤: Ball, Hackemann의 입장 논문. 참여: "이 중 내 생활에 가장 가까운 논문은?" 손들기.</aside>
+</section>
+
+<!-- 24 정리 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-8</span><h2>정리</h2></div><p class="sub">파트 2의 핵심 3줄</p></div>
+  <div class="col" style="gap:26px;justify-content:center">
+    <div class="card"><p style="font-size:36px;font-weight:500"><b style="color:var(--red)">에이전트</b> = 목표를 주면 계획·실행·확인을 반복하는 일하는 AI</p></div>
+    <div class="card"><p style="font-size:36px;font-weight:500"><b style="color:var(--red)">혼자 일하는 시간</b> = 몇 달마다 2배, 최신 16시간 이상 · 그래도 성공률 50% 기준</p></div>
+    <div class="card"><p style="font-size:36px;font-weight:500"><b style="color:var(--red)">로봇·과학</b> = "발표·목표"와 "검증·실적" 사이를 구분해서 읽기</p></div>
+    <div class="card"><p style="font-size:36px;font-weight:500"><b style="color:var(--red)">회사에서</b> = 업무 쪼개기 + 사람 확인 단계 + 최소 권한</p></div>
+  </div>
+</section>
+
+<!-- 25 확인 문제 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-8</span><h2>확인 문제</h2></div><p class="sub">빈칸 채우기</p></div>
+  <div class="col" style="gap:22px">
+    <p style="font-size:34px;line-height:1.5">1. 목표를 주면 계획 → 도구 사용 → 결과 확인을 반복하는 AI = ( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</p>
+    <p style="font-size:34px;line-height:1.5">2. METR 시간 지평은 AI가 ( &nbsp;&nbsp;&nbsp;&nbsp; )% 확률로 성공하는 작업의 길이</p>
+    <p style="font-size:34px;line-height:1.5">3. 에이전트에게는 필요한 권한만 주는 ( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ) 원칙</p>
+    <p style="font-size:34px;line-height:1.5">4. 10월 수학 난제 해결 발표의 현재 단계: 발표 → ( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</p>
+    <button class="reveal">정답 보기</button>
+    <div class="answer">1. 에이전트(agent) &nbsp;·&nbsp; 2. 50 &nbsp;·&nbsp; 3. 최소 권한 &nbsp;·&nbsp; 4. 전문가 검토(기사 시점 기준)</div>
+    <p style="font-size:28px;padding-top:10px"><a href="quiz.html" style="color:var(--red);font-weight:700">▶ 웹 퀴즈 (7문제)</a>&nbsp;&nbsp;&nbsp;<a href="playground.html" style="color:var(--red);font-weight:700">▶ 놀이터: 시간 지평 계산기 · 에이전트 권한 설계</a></p>
+  </div>
+  <aside class="note">정답: 1 에이전트, 2 50, 3 최소 권한, 4 전문가 검토. 시간이 남으면 웹 퀴즈를 휴대폰으로 함께 풀기.</aside>
+</section>
+
+<!-- 26 마무리 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">2-8</span><h2>마무리</h2></div><p class="sub">다음 파트로</p></div>
+  <div class="row" style="gap:80px">
+    <div class="col" style="gap:22px">
+      <h3 style="font-size:40px">오늘 해 볼 것</h3>
+      <ul class="b" style="font-size:31px">
+        <li>워크시트의 내 업무 1개를 다음 주에 시험</li>
+        <li>AI 과학 뉴스는 "몇 번째 계단?" 확인</li>
+        <li>권한은 읽기부터, 보내기·결제는 승인 후</li>
+      </ul>
+      <h3 style="font-size:40px;padding-top:20px">파트 3 예고</h3>
+      <p style="font-size:31px">돈·전기·규칙·일자리 — 그리고 한국</p>
+      <p style="font-size:28px;padding-top:16px"><a href="../01/index.html#1" style="color:var(--gray);font-weight:700">◀ 파트 1</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="../03/index.html#1" style="color:var(--red);font-weight:700">파트 3 ▶</a></p>
+    </div>
+    <img class="fig" src="assets/g5_time_horizon.png" alt="시간 지평 추세 개념도" style="width:760px;height:384px">
+  </div>
+  <aside class="note">휴식 10분 후 파트 3. 파트 3에서는 이 모든 것을 가능하게 하는 돈과 전기, 그리고 규칙과 일자리 이야기.</aside>
+</section>
+
+<!-- 27 출처 -->
+<section class="slide">
+  <div class="head"><h2>이미지·자료 출처</h2><p class="sub">사진 (Openverse 검색, CC 라이선스) · 자료</p></div>
+  <ul class="b" style="font-size:22px;line-height:1.6">
+    <li>black &amp; yellow! — 2 million+ views. Humbled and thanks!, CC BY 2.0, <a href="https://www.flickr.com/photos/61732052@N02/16024803051">flickr</a></li>
+    <li>A Little Help — Jenn Durfey, CC BY 2.0, <a href="https://www.flickr.com/photos/52498245@N03/5393326849">flickr</a></li>
+    <li>House key — Wikimedia Commons, CC BY-SA 3.0, <a href="https://commons.wikimedia.org/w/index.php?curid=691559">commons</a></li>
+    <li>Tesla Motors Assembly Line — jurvetson, CC BY 2.0, <a href="https://www.flickr.com/photos/44124348109@N01/6858583426">flickr</a></li>
+    <li>Vintage laboratory glassware — LukaszKatlewa, CC BY 4.0, <a href="https://commons.wikimedia.org/w/index.php?curid=84518927">commons</a></li>
+    <li>그래프·애니메이션 — matplotlib, manim으로 직접 제작 (수치 출처는 각 슬라이드 하단)</li>
+    <li>자료: 스탠퍼드 HAI 「2026 AI Index」, METR 「Time Horizon 1.1」, ICML 2026 수상 발표, SK텔레콤 뉴스룸 2026 상반기 결산, Wikipedia 「2026 in artificial intelligence」, Al Jazeera(2026.10.27), 휴머노이드 배치 추적(humanoidapplications.com)</li>
+  </ul>
+</section>
+
+</div>
+<div class="notes"></div>
+<div class="bar">
+  <a href="../index.html">← 목록</a>
+  <button data-act="prev">◀</button><span class="count"></span><button data-act="next">▶</button>
+  <span class="grow">← → 이동 · F 전체 화면 · N 노트</span>
+  <a href="quiz.html">퀴즈</a><a href="playground.html">놀이터</a>
+  <button data-act="notes">노트</button><button data-act="full">전체 화면</button>
+</div>
+<script src="../assets/deck.js"></script>
+</body>
+</html>

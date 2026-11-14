@@ -1,0 +1,47 @@
+{
+  "datacenter": {
+    "title": "Data Center",
+    "creator": "Cory M. Grenier",
+    "license": "by-sa",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "source": "https://www.flickr.com/photos/26087974@N05/11387253605",
+    "provider": "flickr"
+  },
+  "powerlines": {
+    "title": "Power lines",
+    "creator": "liftarn",
+    "license": "by-sa",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "source": "https://www.flickr.com/photos/8543480@N06/19427283029",
+    "provider": "flickr"
+  },
+  "scale": {
+    "title": "balance scale",
+    "creator": "winnifredxoxo",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "source": "https://www.flickr.com/photos/61056899@N06/5751301741",
+    "provider": "flickr"
+  },
+  "seatbelt": {
+    "title": "Seat belt lock",
+    "creator": "ToddMcCann",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "source": "https://www.flickr.com/photos/53118898@N04/14891789752",
+    "provider": "flickr"
+  },
+  "ladder": {
+    "title": "ladder",
+    "creator": "Lieutenant Pol",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "source": "https://www.flickr.com/photos/8724931@N07/3612150738",
+    "provider": "flickr"
+  }
+}

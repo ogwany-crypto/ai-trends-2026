@@ -1,0 +1,29 @@
+{
+  "faucet": {
+    "title": "Tap/Faucet in kitchen sink",
+    "creator": "espensorvik",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "source": "https://www.flickr.com/photos/28478778@N05/5729013960",
+    "provider": "flickr"
+  },
+  "recipe": {
+    "title": "Making Ginger Cookies",
+    "creator": "Muffet",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "source": "https://www.flickr.com/photos/53133240@N00/405772944",
+    "provider": "flickr"
+  },
+  "shoelace": {
+    "title": "26/365 ian's knot",
+    "creator": "Arek Olek",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "source": "https://www.flickr.com/photos/25039686@N00/8429655339",
+    "provider": "flickr"
+  }
+}

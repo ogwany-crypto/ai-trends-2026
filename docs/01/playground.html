@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>파트 1 숫자 읽기 놀이터</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="../assets/page.css">
+<style>
+  .legend { display: flex; gap: 18px; font-size: 14px; color: #666; margin-top: 8px; flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; margin-right: 6px; border-radius: 3px; border: 1px solid #ccc; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .box { border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+  .box h3 { font-size: 16px; margin-bottom: 8px; }
+  .box label { display: grid; grid-template-columns: 1fr 120px; gap: 8px; align-items: center; font-size: 15px; margin: 6px 0; }
+  .box input { width: 100%; font: inherit; padding: 4px 8px; border: 1px solid #ccc; border-radius: 6px; }
+  .cost { font-size: 22px; font-weight: 900; color: var(--red); }
+  @media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="badge">파트 1</span><h1>숫자 읽기 놀이터</h1>
+    <nav><a href="index.html#1">슬라이드</a><a href="quiz.html">퀴즈</a><a href="../index.html">목록</a></nav>
+  </header>
+  <p class="lede">AI 뉴스 속 숫자를 직접 만져 보는 공간 · 모든 값은 설명용 가상 예시</p>
+
+  <!-- 1 숫자 읽기 -->
+  <section class="card" id="s1">
+    <h2><span class="n">01</span>같은 사람들, 다른 질문 → 다른 숫자</h2>
+    <p class="muted">가상 국민 100명(점 1개 = 1%) · 슬라이더로 사람들의 상태를 정하면, 질문 방식에 따라 "이용률"이 어떻게 달라지는지 보여 줌 · 관련 슬라이드: 1-2 한국은 어디쯤?</p>
+    <div class="controls">
+      <label>한 번이라도 써 봄 <input type="range" id="r-ever" min="0" max="100" value="85"> <b id="v-ever"></b></label>
+      <label>지금도 꾸준히 사용 <input type="range" id="r-reg" min="0" max="100" value="41"> <b id="v-reg"></b></label>
+      <label>유료 결제 <input type="range" id="r-paid" min="0" max="100" value="26"> <b id="v-paid"></b></label>
+    </div>
+    <canvas id="cv1" aria-label="100개의 점으로 표시한 가상 국민의 AI 이용 상태와 질문별 이용률 막대"></canvas>
+    <div class="legend"><span><i style="background:#E22B2D"></i>유료 결제</span><span><i style="background:#3F3F3F"></i>꾸준히 사용</span><span><i style="background:#F6C4C5"></i>써 보기만 함</span><span><i style="background:#fff"></i>써 본 적 없음</span></div>
+    <p class="stat" id="st1" aria-live="polite"></p>
+  </section>
+
+  <!-- 2 토큰 비용 -->
+  <section class="card" id="s2">
+    <h2><span class="n">02</span>우리 팀 AI 사용료 어림하기</h2>
+    <p class="muted">AI 요금은 보통 "토큰(글자 조각) 100만 개당 가격"으로 매김 · 아래 단가는 <b>실제 가격이 아닌 예시</b>이며, 실제 단가는 각 서비스 요금표로 바꿔 넣기 · 관련 슬라이드: 1-4 오픈 모델과 가격</p>
+    <div class="grid2">
+      <div class="box">
+        <h3>업무량</h3>
+        <label>하루 처리 문서 수 <input type="number" id="docs" value="40" min="0"></label>
+        <label>문서당 글자 수(입력) <input type="number" id="chars" value="3000" min="0"></label>
+        <label>문서당 답변 글자 수 <input type="number" id="outc" value="800" min="0"></label>
+        <label>한 달 근무일 <input type="number" id="days" value="21" min="0"></label>
+        <label>글자당 토큰(가정) <input type="number" id="tpc" value="1.5" step="0.1" min="0"></label>
+      </div>
+      <div class="box">
+        <h3>단가 (100만 토큰당, 달러 · 예시)</h3>
+        <label>모델 A 입력 <input type="number" id="ai" value="3" step="0.01" min="0"></label>
+        <label>모델 A 출력 <input type="number" id="ao" value="15" step="0.01" min="0"></label>
+        <label>모델 B 입력 <input type="number" id="bi" value="0.3" step="0.01" min="0"></label>
+        <label>모델 B 출력 <input type="number" id="bo" value="1.2" step="0.01" min="0"></label>
+      </div>
+    </div>
+    <canvas id="cv2" aria-label="모델 A와 모델 B의 월 예상 비용 막대"></canvas>
+    <p class="stat" id="st2" aria-live="polite"></p>
+  </section>
+</div>
+
+<script>
+const RED = '#E22B2D', RED_L = '#F6C4C5', GRAY = '#8C8C8C', INK = '#3F3F3F', LINE = '#EEEAE6';
+function setup(cv, h) {
+  const dpr = devicePixelRatio || 1, w = cv.clientWidth;
+  cv.width = w * dpr; cv.height = h * dpr; cv.style.height = h + 'px';
+  const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.font = '14px "Noto Sans KR", sans-serif';
+  return [g, w, h];
+}
+const $ = id => document.getElementById(id);
+
+// ---------- 1 ----------
+// 포함 관계 유지: 유료 ≤ 꾸준히 ≤ 써 봄
+function fix(changed) {
+  let e = +$('r-ever').value, r = +$('r-reg').value, p = +$('r-paid').value;
+  if (changed === 'ever') { r = Math.min(r, e); p = Math.min(p, r); }
+  if (changed === 'reg') { e = Math.max(e, r); p = Math.min(p, r); }
+  if (changed === 'paid') { r = Math.max(r, p); e = Math.max(e, r); }
+  $('r-ever').value = e; $('r-reg').value = r; $('r-paid').value = p;
+  return [e, r, p];
+}
+function draw1(changed) {
+  const [e, r, p] = fix(changed);
+  $('v-ever').textContent = e + '%'; $('v-reg').textContent = r + '%'; $('v-paid').textContent = p + '%';
+  const [g, w, h] = setup($('cv1'), 300);
+  const gw = Math.min(280, w * 0.42), cell = gw / 10;
+  for (let i = 0; i < 100; i++) {
+    const x = 10 + (i % 10) * cell, y = 20 + Math.floor(i / 10) * cell;
+    g.fillStyle = i < p ? RED : i < r ? INK : i < e ? RED_L : '#fff';
+    g.beginPath(); g.arc(x + cell / 2, y + cell / 2, cell * 0.38, 0, 7); g.fill();
+    g.strokeStyle = '#ccc'; g.lineWidth = 1; g.stroke();
+  }
+  const qs = [['"써 본 적 있나요?"', e, RED_L], ['"요즘 꾸준히 쓰나요?"', r, INK], ['"돈 내고 쓰나요?"', p, RED]];
+  const x0 = gw + 60, bw = w - x0 - 70;
+  qs.forEach(([q, v, c], i) => {
+    const y = 40 + i * 80;
+    g.fillStyle = INK; g.textAlign = 'left'; g.fillText(q, x0, y);
+    g.fillStyle = LINE; g.fillRect(x0, y + 10, bw, 28);
+    g.fillStyle = c; g.fillRect(x0, y + 10, bw * v / 100, 28);
+    g.fillStyle = INK; g.font = 'bold 16px "Noto Sans KR", sans-serif'; g.fillText(v + '%', x0 + bw + 8, y + 30);
+    g.font = '14px "Noto Sans KR", sans-serif';
+  });
+  $('st1').innerHTML = `같은 100명인데 질문에 따라 이용률이 <b>${p}%</b> ~ <b>${e}%</b> — 뉴스의 "이용률"이 어떤 질문으로 잰 숫자인지 먼저 확인`;
+}
+['ever', 'reg', 'paid'].forEach(k => $('r-' + k).oninput = () => draw1(k));
+
+// ---------- 2 ----------
+function monthlyCost(docs, chars, outc, days, tpc, pin, pout) {
+  const tin = docs * chars * tpc * days, tout = docs * outc * tpc * days;
+  return { tin, tout, cost: tin / 1e6 * pin + tout / 1e6 * pout };
+}
+console.assert(Math.abs(monthlyCost(1, 1e6, 0, 1, 1, 3, 15).cost - 3) < 1e-9, 'cost self-check');
+function draw2() {
+  const v = id => Math.max(0, +$(id).value || 0);
+  const A = monthlyCost(v('docs'), v('chars'), v('outc'), v('days'), v('tpc'), v('ai'), v('ao'));
+  const B = monthlyCost(v('docs'), v('chars'), v('outc'), v('days'), v('tpc'), v('bi'), v('bo'));
+  const [g, w, h] = setup($('cv2'), 170);
+  const mx = Math.max(A.cost, B.cost, 1e-9), x0 = 90, bw = w - x0 - 140;
+  [['모델 A', A.cost, GRAY], ['모델 B', B.cost, RED]].forEach(([n, c, col], i) => {
+    const y = 30 + i * 65;
+    g.fillStyle = INK; g.textAlign = 'left'; g.font = 'bold 15px "Noto Sans KR", sans-serif'; g.fillText(n, 10, y + 24);
+    g.fillStyle = LINE; g.fillRect(x0, y, bw, 36);
+    g.fillStyle = col; g.fillRect(x0, y, bw * c / mx, 36);
+    g.fillStyle = INK; g.fillText('$' + c.toFixed(2) + ' / 월', x0 + bw + 8, y + 24);
+  });
+  const ratio = B.cost > 0 ? (A.cost / B.cost) : 0;
+  $('st2').innerHTML = `한 달 토큰: 입력 <b>${(A.tin / 1e6).toFixed(1)}백만</b>, 출력 <b>${(A.tout / 1e6).toFixed(1)}백만</b> · 같은 업무량에서 A가 B의 <b>${ratio.toFixed(1)}배</b> — 값이 싸다고 업무 품질이 같다는 뜻은 아님(샘플로 직접 비교)`;
+}
+document.querySelectorAll('#s2 input').forEach(i => i.oninput = draw2);
+
+addEventListener('resize', () => { draw1(); draw2(); });
+document.fonts.ready.then(() => { draw1(); draw2(); });
+draw1(); draw2();
+</script>
+</body>
+</html>

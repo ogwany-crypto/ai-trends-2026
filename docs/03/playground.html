@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>파트 3 놀이터 · 거품 저울과 데이터센터 전력</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="../assets/page.css">
+<style>
+  .note-box { background: #FFF4F4; border-radius: 10px; padding: 10px 14px; font-size: 14px; color: #555; margin-top: 10px; }
+  .legend { display: flex; gap: 18px; font-size: 14px; color: #666; margin-top: 8px; flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 22px; height: 4px; vertical-align: middle; margin-right: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="badge">파트 3</span><h1>거품 저울 · 전력 놀이터</h1>
+    <nav><a href="index.html#1">슬라이드</a><a href="quiz.html">퀴즈</a><a href="../index.html">목록</a></nav>
+  </header>
+  <p class="lede">슬라이드의 manim 장면(MoneyScale, TripleBottleneck)을 직접 조작하는 공간 · 모든 미래 값은 가정에 따른 계산이며 예측이 아님</p>
+
+  <!-- 1 거품 저울 -->
+  <section class="card" id="s1">
+    <h2><span class="n">01</span>거품 저울: 매출은 언제 설비투자를 따라잡을까?</h2>
+    <p class="muted">출발점과 증가율을 바꾸면 두 선이 만나는 해가 바뀜 · 관련 장면: MoneyScale</p>
+    <div class="controls">
+      <label>설비투자 출발값(2026, 억 달러) <input type="range" id="b-c0" min="2000" max="10000" step="250" value="7250"> <b id="b-c0v"></b></label>
+      <label>설비투자 연 증가율 <input type="range" id="b-cg" min="-20" max="80" step="1" value="10"> <b id="b-cgv"></b></label>
+    </div>
+    <div class="controls">
+      <label>AI 매출 출발값(2026, 억 달러) <input type="range" id="b-r0" min="250" max="5000" step="50" value="1500"> <b id="b-r0v"></b></label>
+      <label>AI 매출 연 증가율 <input type="range" id="b-rg" min="0" max="150" step="1" value="60"> <b id="b-rgv"></b></label>
+    </div>
+    <canvas id="b-cv" aria-label="연도별 설비투자와 AI 매출 곡선"></canvas>
+    <div class="legend"><span><i style="background:#E22B2D"></i>설비투자</span><span><i style="background:#3F3F3F"></i>AI 매출</span></div>
+    <p class="stat" id="b-stat" aria-live="polite"></p>
+    <p class="note-box">출발값 기본: 설비투자 약 7,250억 달러 = 빅테크 4사 2026 설비투자 [보도: SKT 결산]. 매출 1,500억 달러 = "AI 기업 연 매출 합계 1,500억 달러 미만" 추정의 상한 [보도: 시장 분석]. 증가율 기본값(10%, 60%)은 <b>놀이터용 가정</b>. 실제로는 설비투자와 매출이 같은 회사·같은 범위가 아니므로 개념 체험용.</p>
+  </section>
+
+  <!-- 2 데이터센터 전력 -->
+  <section class="card" id="s2">
+    <h2><span class="n">02</span>데이터센터 전력: 증가율이 바뀌면 2030년은?</h2>
+    <p class="muted">2025년 485 TWh에서 출발 · 연 증가율을 바꿔 IEA 2030 전망(950 TWh)과 비교 · 관련 장면: TripleBottleneck</p>
+    <div class="controls">
+      <label>연 증가율 <input type="range" id="p-g" min="0" max="30" step="0.5" value="17"> <b id="p-gv"></b></label>
+      <button id="p-iea">IEA 전망과 같은 증가율</button><button id="p-2025">2025년 실제 증가율(17%)</button>
+    </div>
+    <canvas id="p-cv" aria-label="연도별 데이터센터 전력 수요 막대와 IEA 2030 전망선"></canvas>
+    <p class="stat" id="p-stat" aria-live="polite"></p>
+    <p class="note-box">근거: 2025년 485 TWh, 2030년 950 TWh 전망, 2025년 증가율 +17% [공식: IEA 2026]. 매년 같은 비율로 늘어난다는 단순 가정. 1 TWh = 10억 kWh.</p>
+  </section>
+</div>
+
+<script>
+const RED = '#E22B2D', RED_L = '#F6C4C5', GRAY = '#8C8C8C', INK = '#3F3F3F', GRAY_L = '#D9D9D9';
+const $ = id => document.getElementById(id);
+const fmt = v => Math.round(v).toLocaleString('ko-KR');
+
+function setup(cv, h) {
+  const dpr = window.devicePixelRatio || 1, w = cv.clientWidth;
+  cv.width = w * dpr; cv.height = h * dpr; cv.style.height = h + 'px';
+  const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  g.font = '13px "Noto Sans KR", sans-serif'; return [g, w, h];
+}
+
+// ---------- 1 거품 저울 ----------
+// 따라잡는 해: r0(1+rg)^t >= c0(1+cg)^t 를 만족하는 첫 정수 t (최대 15년)
+function crossYear(c0, cg, r0, rg) {
+  for (let t = 0; t <= 15; t++) if (r0 * (1 + rg) ** t >= c0 * (1 + cg) ** t) return 2026 + t;
+  return null;
+}
+console.assert(crossYear(100, 0, 100, 0) === 2026, 'same start');
+console.assert(crossYear(200, 0, 100, 1) === 2027, 'double once');
+console.assert(crossYear(200, 0.5, 100, 0.5) === null, 'never');
+
+function drawB() {
+  const c0 = +$('b-c0').value, cg = +$('b-cg').value / 100, r0 = +$('b-r0').value, rg = +$('b-rg').value / 100;
+  $('b-c0v').textContent = fmt(c0); $('b-cgv').textContent = `${$('b-cg').value}%`;
+  $('b-r0v').textContent = fmt(r0); $('b-rgv').textContent = `${$('b-rg').value}%`;
+  const N = 10, cap = [], rev = [];
+  for (let t = 0; t <= N; t++) { cap.push(c0 * (1 + cg) ** t); rev.push(r0 * (1 + rg) ** t); }
+  const [g, w, h] = setup($('b-cv'), 300);
+  const L = 70, R = w - 20, T = 20, B = h - 40, max = Math.max(...cap, ...rev) * 1.1;
+  const X = t => L + (R - L) * t / N, Y = v => B - (B - T) * v / max;
+  g.strokeStyle = INK; g.lineWidth = 1.5; g.beginPath(); g.moveTo(L, T); g.lineTo(L, B); g.lineTo(R, B); g.stroke();
+  g.fillStyle = GRAY; g.textAlign = 'center';
+  for (let t = 0; t <= N; t += 2) g.fillText(2026 + t, X(t), B + 18);
+  g.textAlign = 'right';
+  for (let k = 0; k <= 4; k++) { const v = max * k / 4; g.fillText(fmt(v), L - 6, Y(v) + 4); }
+  [[cap, RED], [rev, INK]].forEach(([arr, c]) => {
+    g.strokeStyle = c; g.lineWidth = 3; g.beginPath();
+    arr.forEach((v, t) => t ? g.lineTo(X(t), Y(v)) : g.moveTo(X(t), Y(v))); g.stroke();
+  });
+  const cy = crossYear(c0, cg, r0, rg);
+  if (cy !== null && cy - 2026 <= N) {
+    const t = cy - 2026; g.strokeStyle = RED_L; g.setLineDash([5, 4]); g.beginPath(); g.moveTo(X(t), T); g.lineTo(X(t), B); g.stroke(); g.setLineDash([]);
+  }
+  $('b-stat').innerHTML = cy === null
+    ? '<span class="bad">15년 안에 따라잡지 못함</span> — 이 가정이라면 저울은 계속 기울어 있음'
+    : cy === 2026 ? '<span class="ok">이미 매출이 설비투자 이상</span>'
+    : `매출이 설비투자를 따라잡는 해: <b>${cy}년</b> (${cy - 2026}년 뒤) — 증가율 몇 %p 차이로 해가 크게 바뀌는 점에 주목`;
+}
+['b-c0', 'b-cg', 'b-r0', 'b-rg'].forEach(id => $(id).oninput = drawB);
+
+// ---------- 2 데이터센터 전력 ----------
+const P0 = 485, IEA = 950;
+const ieaRate = (IEA / P0) ** (1 / 5) - 1;   // 5년 복리로 950에 도달하는 증가율
+console.assert(Math.abs(P0 * (1 + ieaRate) ** 5 - IEA) < 1e-6, 'iea rate');
+
+function drawP() {
+  const gr = +$('p-g').value / 100; $('p-gv').textContent = `${$('p-g').value}%`;
+  const vals = []; for (let t = 0; t <= 5; t++) vals.push(P0 * (1 + gr) ** t);
+  const [g, w, h] = setup($('p-cv'), 280);
+  const L = 60, R = w - 20, T = 20, B = h - 40, max = Math.max(IEA, ...vals) * 1.15;
+  const bw = (R - L) / 6 * 0.6, X = t => L + (R - L) * (t + 0.5) / 6, Y = v => B - (B - T) * v / max;
+  g.strokeStyle = INK; g.lineWidth = 1.5; g.beginPath(); g.moveTo(L, B); g.lineTo(R, B); g.stroke();
+  vals.forEach((v, t) => {
+    g.fillStyle = t === 5 ? RED : GRAY_L; g.fillRect(X(t) - bw / 2, Y(v), bw, B - Y(v));
+    g.fillStyle = INK; g.textAlign = 'center'; g.fillText(fmt(v), X(t), Y(v) - 6); g.fillStyle = GRAY; g.fillText(2025 + t, X(t), B + 18);
+  });
+  g.strokeStyle = RED; g.setLineDash([6, 5]); g.lineWidth = 2; g.beginPath(); g.moveTo(L, Y(IEA)); g.lineTo(R, Y(IEA)); g.stroke(); g.setLineDash([]);
+  g.fillStyle = RED; g.textAlign = 'left'; g.fillText('IEA 2030 전망 950 TWh', L + 6, Y(IEA) - 6);
+  const v30 = vals[5], d = v30 / IEA - 1;
+  $('p-stat').innerHTML = `연 ${$('p-g').value}%씩 늘면 2030년 <b>${fmt(v30)} TWh</b> · IEA 전망 대비 ${d >= 0 ? '+' : ''}${(d * 100).toFixed(0)}% · IEA 전망에 맞는 연 증가율은 약 ${(ieaRate * 100).toFixed(1)}%`;
+}
+$('p-g').oninput = drawP;
+$('p-iea').onclick = () => { $('p-g').value = (Math.round(ieaRate * 200) / 2).toFixed(1); drawP(); };
+$('p-2025').onclick = () => { $('p-g').value = 17; drawP(); };
+
+addEventListener('resize', () => { drawB(); drawP(); });
+document.fonts.ready.then(() => { drawB(); drawP(); });
+drawB(); drawP();
+</script>
+</body>
+</html>

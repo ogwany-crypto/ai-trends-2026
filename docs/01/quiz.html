@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>파트 1 웹 퀴즈 · AI는 어디까지 왔나</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="../assets/page.css">
+<style>
+  .q { font-size: 18px; font-weight: 500; margin-bottom: 14px; white-space: pre-line; }
+  .opts { display: grid; gap: 10px; }
+  .opt { display: flex; gap: 12px; align-items: center; text-align: left; border: 2px solid var(--line); border-radius: 12px;
+    padding: 12px 16px; background: #fff; color: var(--ink); font-weight: 500; }
+  .opt:hover:not(:disabled) { border-color: var(--red-l); }
+  .opt:disabled { opacity: 1; }
+  .opt.sel { border-color: var(--red); background: var(--red-bg); }
+  .opt.right { border-color: var(--ok); background: var(--ok-bg); }
+  .opt.wrong { border-color: var(--red); background: var(--red-bg); text-decoration: line-through; }
+  .opt .k { width: 28px; height: 28px; flex: none; border-radius: 50%; border: 2px solid currentColor; display: grid; place-items: center; font-size: 14px; }
+  .fb { margin-top: 14px; padding: 12px 16px; border-radius: 10px; display: none; }
+  .fb.show { display: block; }
+  .fb.good { background: var(--ok-bg); }
+  .fb.no { background: var(--red-bg); }
+  table.dist { border-collapse: collapse; margin: 8px 0 14px; font-size: 17px; }
+  table.dist td, table.dist th { border: 1px solid #ccc; padding: 6px 16px; text-align: center; }
+  table.dist th { background: #f4f1ee; }
+  .progress { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; margin-bottom: 24px; }
+  .progress i { display: block; height: 100%; width: 0; background: var(--red); transition: width .3s; }
+  .result { text-align: center; padding: 40px 24px; }
+  .result .big { font-size: 64px; font-weight: 900; color: var(--red); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="badge">파트 1</span><h1>웹 퀴즈 · AI는 어디까지 왔나</h1>
+    <nav><a href="index.html#1">슬라이드</a><a href="playground.html">놀이터</a><a href="../index.html">목록</a></nav>
+  </header>
+  <p class="lede">8문제 · 고르거나 답을 입력한 뒤 “확인”</p>
+  <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+  <div id="app"></div>
+</div>
+
+<script>
+// type: choice(하나 고르기) | multi(모두 고르기) | num(수 입력, 분수 가능)
+const QUIZ = [
+  { type: 'choice', q: '스탠퍼드 AI 인덱스 2026에 따르면, 생성형 AI는 출시 3년 만에 인구의 약 몇 %가 사용',
+    opts: ['약 13%', '약 33%', '약 53%', '약 93%'], ans: 2,
+    why: '3년 만에 53% — PC나 인터넷보다 빠른 확산. [공식]' },
+  { type: 'choice', q: '한국 생성형 AI 이용률이 조사마다 85%와 40.6%로 크게 다른 가장 큰 이유',
+    opts: ['한쪽 조사가 틀렸기 때문', '"써 본 적 있음" 설문과 "실제 사용 추정"처럼 재는 방법이 다르기 때문', '조사한 나라가 달라서', '반올림 차이'],
+    ans: 1, why: '85%는 이용 경험 설문(15~69세), 40.6%는 실제 사용 흔적 기반 추정(15~64세). 숫자를 볼 때는 "어떻게 쟀나"부터.' },
+  { type: 'choice', q: '"오픈 웨이트(open-weight) 모델"의 뜻',
+    opts: ['무료 체험판 챗봇', '누구나 내려받아 자기 서버에서 쓸 수 있는 모델', '정부가 만든 모델', '인터넷 없이만 동작하는 모델'],
+    ans: 1, why: '레시피를 공개한 식당처럼, 모델 자체를 내려받아 직접 운영 가능. 대신 서버와 관리는 내 몫.' },
+  { type: 'num', q: '2026년 3월 기준, 미국과 중국 최고 AI 모델의 성능 격차는 몇 %? (숫자만)',
+    ans: 2.7, tol: 0.05, why: '2.7% — 투자액은 미국이 약 23배지만 성능 격차는 거의 사라짐. [공식]' },
+  { type: 'choice', q: '스탠퍼드 AI 인덱스 2026 기준, AI가 가장 서툰 일',
+    opts: ['코딩 문제 해결', '사이버보안 문제 해결', '로봇이 실제 집안일 하기', '박사급 과학 문제'],
+    ans: 2, why: '로봇 실제 집안일 성공률 12%. 코딩·보안은 90%대. 능력이 "들쭉날쭉".' },
+  { type: 'choice', q: '다음 중 출처 등급이 [주장]에 해당하는 것',
+    opts: ['스탠퍼드 대학 연례 보고서의 투자 통계', '여러 언론이 같은 내용으로 보도한 행사 소식', '한 회사가 "우리 새 모델은 범용 인공지능"이라고 발표', '법령에 적힌 시행 날짜'],
+    ans: 2, why: '기업 자체 발표로 독립 검증 전 → [주장]. 보고서·법령은 [공식], 여러 언론 일치는 [보도].' },
+  { type: 'multi', q: '새 AI 모델 뉴스를 볼 때 던질 질문 (모두 고르기)',
+    opts: ['무엇을 더 잘하나', '얼마인가', '무엇을 아직 못 하나', '모델 이름의 숫자가 몇인가'],
+    ans: [0, 1, 2], why: '이름은 몇 달마다 바뀜. 업무에 중요한 것은 개선점·비용·한계.' },
+  { type: 'choice', q: 'AI "증류(distillation)"에 가장 가까운 비유',
+    opts: ['학생이 선생님의 정답지를 대량으로 베껴 공부', '물을 끓여 소금을 얻기', '책을 여러 권 사서 비교', '컴퓨터를 포맷하기'],
+    ans: 0, why: '큰 모델의 답을 대량으로 받아 작은 모델을 가르치는 방법. 남의 서비스를 몰래 쓰면 분쟁 대상.' },
+];
+
+const app = document.getElementById('app');
+const bar = document.getElementById('bar');
+let idx = 0, score = 0, picked = new Set(), done = false;
+
+function parseNum(s) {
+  s = s.trim().replace(/\s/g, '').replace('−', '-');
+  const m = s.match(/^(-?\d*\.?\d+)\/(\d*\.?\d+)$/);
+  if (m) return parseFloat(m[1]) / parseFloat(m[2]);
+  return s === '' ? NaN : Number(s);
+}
+
+function render() {
+  bar.style.width = `${idx / QUIZ.length * 100}%`;
+  if (idx >= QUIZ.length) return renderResult();
+  const it = QUIZ[idx];
+  picked = new Set(); done = false;
+  const table = it.table ? `<table class="dist">${it.table.map((r, i) =>
+    `<tr>${r.map(c => i === 0 ? `<th>${c}</th>` : `<td>${c}</td>`).join('')}</tr>`).join('')}</table>` : '';
+  const body = it.type === 'num'
+    ? `<div class="controls"><label>답 <input type="text" id="num" inputmode="decimal" placeholder="예: 3/8 또는 0.375" autocomplete="off"></label></div>`
+    : `<div class="opts">${it.opts.map((o, i) =>
+        `<button class="opt" data-i="${i}"><span class="k">${it.type === 'multi' ? '✓' : i + 1}</span><span>${o}</span></button>`).join('')}</div>`;
+  app.innerHTML = `<div class="card">
+    <p class="muted">문제 ${idx + 1} / ${QUIZ.length}${it.type === 'multi' ? ' · 모두 고르기' : ''}</p>
+    <p class="q">${it.q}</p>${table}${body}
+    <div class="controls"><button class="solid" id="check">확인</button><button id="next" hidden>${idx + 1 < QUIZ.length ? '다음 문제 →' : '결과 보기'}</button></div>
+    <div class="fb" id="fb" role="status"></div></div>`;
+  app.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+    if (done) return;
+    const i = +b.dataset.i;
+    if (it.type === 'choice') { picked = new Set([i]); app.querySelectorAll('.opt').forEach(x => x.classList.toggle('sel', +x.dataset.i === i)); }
+    else { picked.has(i) ? picked.delete(i) : picked.add(i); b.classList.toggle('sel'); }
+  });
+  const num = document.getElementById('num');
+  if (num) { num.focus(); num.onkeydown = e => { if (e.key === 'Enter') check(); }; }
+  document.getElementById('check').onclick = check;
+  document.getElementById('next').onclick = () => { idx++; render(); };
+}
+
+function check() {
+  if (done) return;
+  const it = QUIZ[idx], fb = document.getElementById('fb');
+  let ok;
+  if (it.type === 'num') {
+    const v = parseNum(document.getElementById('num').value);
+    if (isNaN(v)) { fb.className = 'fb show no'; fb.textContent = '수를 입력 (분수 3/8 또는 소수 0.375)'; return; }
+    ok = Math.abs(v - it.ans) < (it.tol ?? 1e-3);
+  } else {
+    if (!picked.size) { fb.className = 'fb show no'; fb.textContent = '보기 선택 필요'; return; }
+    const ans = new Set([].concat(it.ans));
+    ok = picked.size === ans.size && [...picked].every(i => ans.has(i));
+    app.querySelectorAll('.opt').forEach(b => {
+      const i = +b.dataset.i; b.disabled = true;
+      if (ans.has(i)) b.classList.add('right'); else if (picked.has(i)) b.classList.add('wrong');
+    });
+  }
+  done = true;
+  if (ok) score++;
+  fb.className = `fb show ${ok ? 'good' : 'no'}`;
+  fb.innerHTML = `<b class="${ok ? 'ok' : 'bad'}">${ok ? '정답' : '오답'}</b>${it.type === 'num' && !ok ? ` · 정답 ${fmt(it.ans)}` : ''}<br>${it.why}`;
+  document.getElementById('check').hidden = true;
+  const next = document.getElementById('next'); next.hidden = false; next.focus();
+}
+
+function fmt(v) {
+  for (let d = 1; d <= 20; d++) { const n = Math.round(v * d); if (Math.abs(n / d - v) < 1e-9) return d === 1 ? `${n}` : `${n}/${d}`; }
+  return v.toFixed(3);
+}
+
+function renderResult() {
+  bar.style.width = '100%';
+  const msg = score === QUIZ.length ? '만점! 파트 1 핵심 완벽 이해' : score >= 7 ? '거의 완벽. 틀린 문제만 슬라이드로 복습' : '슬라이드와 놀이터로 복습 후 재도전';
+  app.innerHTML = `<div class="card result"><p class="muted">결과</p><p class="big">${score} / ${QUIZ.length}</p><p style="margin:8px 0 24px">${msg}</p>
+    <div class="controls" style="justify-content:center"><button class="solid" id="again">다시 풀기</button><a class="btn" href="playground.html">놀이터 가기</a><a class="btn" href="index.html#1">슬라이드 복습</a></div></div>`;
+  document.getElementById('again').onclick = () => { idx = 0; score = 0; render(); };
+}
+render();
+</script>
+</body>
+</html>

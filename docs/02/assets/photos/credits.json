@@ -1,0 +1,47 @@
+{
+  "taxi": {
+    "title": "black & yellow!",
+    "creator": "2 million+ views. Humbled and thanks!",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "source": "https://www.flickr.com/photos/61732052@N02/16024803051",
+    "provider": "flickr"
+  },
+  "training_wheels": {
+    "title": "A Little Help",
+    "creator": "Jenn Durfey",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "source": "https://www.flickr.com/photos/52498245@N03/5393326849",
+    "provider": "flickr"
+  },
+  "keys": {
+    "title": "House key",
+    "creator": null,
+    "license": "by-sa",
+    "license_version": "3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/w/index.php?curid=691559",
+    "provider": "wikimedia"
+  },
+  "lab": {
+    "title": "Vintage laboratory glassware",
+    "creator": "LukaszKatlewa",
+    "license": "by",
+    "license_version": "4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source": "https://commons.wikimedia.org/w/index.php?curid=84518927",
+    "provider": "wikimedia"
+  },
+  "factory": {
+    "title": "Tesla Motors Assembly Line",
+    "creator": "jurvetson",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "source": "https://www.flickr.com/photos/44124348109@N01/6858583426",
+    "provider": "flickr"
+  }
+}

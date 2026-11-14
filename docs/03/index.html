@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>파트 3 돈·전기·규칙·일자리 — 2026 AI 트렌드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="../assets/deck.css">
+<style>
+  .cover { flex-direction: row !important; align-items: center; justify-content: space-between; padding: 128px !important; }
+  .cover::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 24px; background: var(--red); }
+  .toc-item { display: flex; align-items: center; gap: 40px; padding: 26px 0; border-bottom: 2px solid var(--red-l); }
+  .toc-item:last-child { border-bottom: none; }
+  .toc-item b { font-size: 56px; font-weight: 900; color: var(--red); width: 100px; }
+  .toc-item span { font-size: 42px; font-weight: 500; }
+  .src { font-size: 22px; color: var(--gray); }
+  .src b { color: var(--red); font-weight: 700; }
+  table.tbl { border-collapse: collapse; width: 100%; background: #fff; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 4px 16px rgba(63,63,63,.08); font-size: 28px; }
+  table.tbl th { background: var(--red); color: #fff; font-weight: 700; padding: 16px 20px; text-align: left; }
+  table.tbl td { padding: 14px 20px; border-bottom: 2px solid var(--line); line-height: 1.4; vertical-align: top; }
+  table.tbl tr:last-child td { border-bottom: none; }
+  table.tbl td:first-child { font-weight: 700; }
+  .grid4 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; flex: 1; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; flex: 1; }
+  .card h3 { font-size: 36px; }
+  .card p, .card li { font-size: 28px; line-height: 1.5; }
+  .tag { display: inline-block; font-size: 20px; font-weight: 700; color: var(--red); border: 2px solid var(--red); border-radius: 999px; padding: 2px 14px; margin-left: 8px; vertical-align: middle; }
+  .big { font-size: 64px; font-weight: 900; color: var(--red); line-height: 1.1; }
+  .monday { border: 4px dashed var(--red); border-radius: 20px; padding: 40px 48px; background: #fff; display: flex; flex-direction: column; gap: 24px; }
+  .monday .line { border-bottom: 2px solid var(--line); height: 56px; font-size: 28px; color: var(--gray); display: flex; align-items: flex-end; padding-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="progress"></div>
+<div class="stage">
+
+<!-- 1 표지 -->
+<section class="slide cover">
+  <div style="display:flex;flex-direction:column;gap:32px;width:1060px">
+    <p style="font-size:120px;font-weight:900;color:var(--red);line-height:1">03 <span style="font-size:48px;font-weight:700">파트 3</span></p>
+    <p style="font-size:36px;font-weight:500;color:var(--gray)">2026 AI 트렌드 — 말하는 AI에서 일하는 AI로</p>
+    <h1 style="font-size:92px;font-weight:900;line-height:1.15">돈·전기·규칙·일자리<br>— 그리고 한국</h1>
+    <hr style="width:160px;border:none;border-top:6px solid var(--red)">
+    <p style="font-size:30px;color:var(--gray)">직장인을 위한 3시간 교육 발표 · 파트 3 · 기준일 2026.11.14 · 발표 : ○○○</p>
+  </div>
+  <img class="fig" src="assets/cover.png" alt="점점 높아지는 막대, 마지막 막대만 빨강" style="width:560px;height:743px">
+  <aside class="note">파트 3 (약 50분). 파트 1·2에서 본 "일하는 AI"가 사회에 청구하는 비용: 돈, 전기, 규칙, 일자리. 그리고 한국은 어디에 서 있나. 모든 숫자에 출처와 신뢰도 표기 [공식]/[보도]/[주장]/[추적].</aside>
+</section>
+
+<!-- 2 목차 -->
+<section class="slide" style="flex-direction:row;align-items:center;gap:96px;padding:128px">
+  <div style="display:flex;flex-direction:column;gap:24px;width:520px">
+    <p style="font-size:32px;font-weight:700;color:var(--red);letter-spacing:4px">CONTENTS</p>
+    <h2 style="font-size:68px;font-weight:900;line-height:1.15">돈·전기·규칙<br>·일자리</h2>
+    <hr style="width:120px;border:none;border-top:6px solid var(--red)">
+  </div>
+  <div style="flex:1">
+    <div class="toc-item"><b>01</b><span>쏟아지는 돈, 그리고 거품 논쟁</span></div>
+    <div class="toc-item"><b>02</b><span>전기와 칩: 삼중 병목</span></div>
+    <div class="toc-item"><b>03</b><span>규칙이 생기다</span></div>
+    <div class="toc-item"><b>04</b><span>일자리와 배움</span></div>
+    <div class="toc-item"><b>05</b><span>한국의 AI, 그리고 2027</span></div>
+  </div>
+</section>
+
+<!-- 3 목표 -->
+<section class="slide" style="flex-direction:row;align-items:center;gap:80px;padding:128px">
+  <img class="fig" src="assets/goal.png" alt="돈, 전기, 규칙, 일자리 네 칸" style="width:720px;height:540px">
+  <div class="col" style="gap:40px">
+    <h2 style="font-size:72px;font-weight:900">이 파트의 목표</h2>
+    <div class="card"><p style="font-size:28px;font-weight:700;color:var(--red)">목표 1</p><p style="font-size:36px;font-weight:500">AI 투자와 매출의 격차, 전력·칩 병목을 그래프로 읽기</p></div>
+    <div class="card"><p style="font-size:28px;font-weight:700;color:var(--red)">목표 2</p><p style="font-size:36px;font-weight:500">2026년 규제 일정과 직장인이 지킬 것, 일자리 변화의 모양 말하기</p></div>
+  </div>
+</section>
+
+<!-- 4 오늘의 질문 -->
+<section class="slide" style="justify-content:center;align-items:center;gap:56px">
+  <p style="font-size:36px;font-weight:700;color:var(--red);letter-spacing:4px">여는 질문</p>
+  <p style="font-size:64px;font-weight:900;line-height:1.4;text-align:center">우리 회사의 AI 예산,<br>올해 늘었나요?<br><span style="color:var(--red)">그 돈으로 무엇이 좋아졌나요?</span></p>
+  <aside class="note">손들기: 늘었다 / 그대로 / 모르겠다. "무엇이 좋아졌나"에 바로 답할 수 있는 분이 적다면 → 그게 오늘 3-2 "거품 논쟁"의 회사 버전. 세계적으로도 같은 질문이 오가는 중.</aside>
+</section>
+
+<!-- 5 3-1 G7 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-1</span><h2>쏟아지는 돈</h2></div><p class="sub">2025년 기업 AI 투자, 1년 만에 2배 이상</p></div>
+  <div class="row" style="gap:64px">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <img class="fig" src="assets/g7_investment.png" alt="기업 AI 투자 2024 역산 2,529억 달러, 2025 5,817억 달러" style="width:980px;height:567px">
+      <p class="src">출처: Stanford HAI, 2026 AI Index · <b>[공식]</b> · 2024 값은 증가율로 역산</p>
+    </div>
+    <div class="col">
+      <div class="big">5,817억 달러</div>
+      <ul class="b" style="font-size:30px">
+        <li>2025 전 세계 기업 AI 투자, +130%</li>
+        <li>민간 투자 3,447억 달러, +127.5%</li>
+        <li>미국 2,859억 vs 중국 124억 달러</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="note">[공식] 스탠퍼드 AI 인덱스 2026 (hai.stanford.edu/ai-index/2026-ai-index-report). 2024 막대는 보고서의 증가율(+130%, +127.5%)로 거꾸로 계산한 값이라 그래프에 "역산" 표시. 말할 것: "한 해에 우리나라 1년 예산의 절반 이상에 해당하는 돈이 AI 한 분야에 들어감" 같은 비교는 환율·기준을 확인 후 사용.</aside>
+</section>
+
+<!-- 6 3-1 G8 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-1</span><h2>쏟아지는 돈</h2></div><p class="sub">빅테크의 설비투자: 데이터센터를 짓는 돈</p></div>
+  <div class="row" style="gap:64px">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <img class="fig" src="assets/g8_capex.png" alt="빅테크 4사 설비투자 2025 역산 약 4,096억, 2026 약 7,250억 달러" style="width:980px;height:567px">
+      <p class="src">출처: SK텔레콤 뉴스룸 「2026 상반기 AI 트렌드 결산」 · <b>[보도]</b> · 2025 값은 증가율로 역산</p>
+    </div>
+    <div class="col">
+      <ul class="b" style="font-size:30px">
+        <li>알파벳·아마존·MS·메타 2026 설비투자 약 7,250억 달러 (+77%)</li>
+        <li>그중 약 75%가 AI 연산 설비</li>
+        <li>대형 클라우드 6사 AI 지출 8,500억 달러 이상 전망 <span class="tag">보도</span></li>
+        <li>AI 설비투자 = 미국 GDP의 약 0.8% <span class="tag">보도</span></li>
+      </ul>
+    </div>
+  </div>
+  <aside class="note">[보도] SKT 뉴스룸 2026.7.14 결산(빅테크 4사 7,250억 달러, +77%, 75% AI). [보도] 블룸버그: 대형 클라우드 6사 2026 AI 관련 지출 8,500억 달러 이상(+83%). [보도] 골드만삭스: AI 설비투자 = 미국 GDP 약 0.8%. 집계 대상(4사 vs 6사)이 달라 숫자가 다름 — 두 숫자를 더하거나 비교하지 말 것. 설비투자 = 건물·서버·칩처럼 오래 쓰는 시설에 쓰는 돈.</aside>
+</section>
+
+<!-- 7 3-2 비유 저울 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-2</span><h2>거품인가?</h2></div><p class="sub">[비유] 저울</p></div>
+  <div class="row">
+    <div class="photo"><img src="assets/photos/scale.jpg" alt="양팔 저울" style="width:760px;height:570px"><p class="credit">사진: winnifredxoxo / CC BY 2.0</p></div>
+    <div class="col">
+      <h3>저울 = AI 산업의 수지</h3>
+      <ul class="b">
+        <li>왼쪽 접시 = 들어가는 돈 (데이터센터·칩)</li>
+        <li>오른쪽 접시 = 들어오는 돈 (구독·API 매출)</li>
+        <li>지금은 왼쪽이 훨씬 무거운 상태</li>
+        <li>거품 논쟁 = 오른쪽이 따라잡을 수 있는가</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 8 3-2 MoneyScale -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-2</span><h2>거품인가?</h2></div><p class="sub">들어가는 돈 vs 들어오는 돈</p></div>
+  <video class="anim" src="assets/anim/MoneyScale.mp4" poster="assets/anim/MoneyScale_poster.png" muted playsinline preload="metadata" style="width:1360px;height:680px"></video>
+  <aside class="note">manim: 설비투자 접시가 무겁게 내려갔다가 매출 증가로 조금 되돌아옴. 저울 각도는 개념 표현일 뿐 실제 비율 아님. 수치: 빅테크 4사 설비투자 약 7,250억 달러 [보도: SKT 결산].</aside>
+</section>
+
+<!-- 9 3-2 T3 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-2</span><h2>거품인가?</h2></div><p class="sub">강세론 vs 약세론</p></div>
+  <table class="tbl">
+    <tr><th style="width:50%">강세론: "진짜 수요"</th><th>약세론: "너무 앞선 투자"</th></tr>
+    <tr><td style="font-weight:500">선두 기업 매출이 유례없이 빠르게 증가</td><td>AI 기업 연 매출 합계 1,500억 달러 미만 추정 vs 설비투자 연 1조 달러 근처</td></tr>
+    <tr><td style="font-weight:500">미국 사용자당 생성형 AI 가치 1년 새 3배 <span class="tag">공식</span></td><td>칩 회사가 고객에 투자하고, 고객이 다시 칩을 사는 "순환 투자"</td></tr>
+    <tr><td style="font-weight:500">사용(추론) 수요가 AI 연산의 약 3분의 2</td><td>매출 대비 기업가치 40배 수준이라는 분석</td></tr>
+  </table>
+  <ul class="b" style="font-size:28px">
+    <li>11월: AI 인프라 지출 우려로 미국 기술주 급락, 나스닥 2025년 3월 이후 최악의 월간 하락 <span class="tag">보도</span></li>
+    <li>앤트로픽 상장 추진, 시장 상황에 맞춰 기업가치 눈높이 조정 보도 <span class="tag">보도</span></li>
+  </ul>
+  <p class="src">출처: 블룸버그·업계 분석 종합(2026.11), Deloitte TMT 2026, Stanford AI Index · <b>[보도]</b> · 매출·기업가치 수치는 기준(연환산, 총·순매출)이 달라 참고용</p>
+  <aside class="note">[보도] 약세론 수치(AI 기업 연 매출 합계 1,500억 달러 미만, 설비투자 1조 달러 근처, 40배)는 시장 분석 기사들의 추정. 앤트로픽 상장 관련 기업가치·매출 숫자는 출처마다 크게 달라 슬라이드에서 뺌 — 발표 직전 최신 보도 확인. 말할 것: "1999년 인터넷 거품 때도 인터넷은 진짜였다. 거품 여부와 기술의 가치는 다른 질문."</aside>
+</section>
+
+<!-- 10 3-2 직장인: 예산 3질문 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-2</span><h2>거품인가?</h2></div><p class="sub">직장인 버전: 우리 회사 AI 예산을 판단하는 3가지 질문</p></div>
+  <div class="grid3">
+    <div class="card"><p class="k" style="font-size:24px;font-weight:700;color:var(--gray)">질문 1</p><h3>측정 가능한 효과</h3><p>시간·비용·오류율 중 무엇이 얼마나 줄었나</p><p style="color:var(--gray)">예: 보고서 작성 4시간 → 1시간</p></div>
+    <div class="card"><p class="k" style="font-size:24px;font-weight:700;color:var(--gray)">질문 2</p><h3>사용량 비용</h3><p>쓸수록 늘어나는 비용(토큰·좌석)의 상한은 있나</p><p style="color:var(--gray)">예: 1인당 하루 AI 예산 한도</p></div>
+    <div class="card"><p class="k" style="font-size:24px;font-weight:700;color:var(--gray)">질문 3</p><h3>대체 가능성</h3><p>더 싼 모델·오픈 모델로 바꿔도 되나, 데이터는 옮길 수 있나</p><p style="color:var(--gray)">예: 특정 회사 종속 피하기</p></div>
+  </div>
+  <p style="font-size:30px;font-weight:700;color:var(--red)">2분 토론: 우리 팀 AI 도구 하나를 세 질문으로 채점</p>
+  <aside class="note">강의자 정리(강의안 1.5 직장인 보강). 예시 "1인당 하루 AI 예산 한도": 애플이 엔지니어 1인당 하루 AI 예산을 200달러로 제한했다는 보도(11월 국내 헤드라인 모음) [보도]. 질문 3은 파트 1의 오픈 모델·가격 경쟁과 연결.</aside>
+</section>
+
+<!-- 11 3-3 비유 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-3</span><h2>전기와 칩</h2></div><p class="sub">[비유] 전기를 많이 먹는 공장</p></div>
+  <div class="row" style="gap:48px;align-items:flex-start">
+    <div class="col" style="gap:8px">
+      <img src="assets/photos/datacenter.jpg" alt="데이터센터 서버 통로" style="width:808px;height:420px;object-fit:cover;border-radius:16px">
+      <p class="credit">사진: Cory M. Grenier / CC BY-SA 2.0</p>
+      <h3 style="padding-top:12px">데이터센터 = AI 공장</h3>
+      <ul class="b"><li>서버 수만 대가 밤낮없이 계산</li><li>계산 = 전기 + 열</li></ul>
+    </div>
+    <div class="col" style="gap:8px">
+      <img src="assets/photos/powerlines.jpg" alt="송전탑과 전선" style="width:808px;height:420px;object-fit:cover;border-radius:16px">
+      <p class="credit">사진: liftarn / CC BY-SA 2.0</p>
+      <h3 style="padding-top:12px">송전탑 = 공장의 생명선</h3>
+      <ul class="b"><li>좋은 기계도 전기가 없으면 정지</li><li>발전소·전력망은 짓는 데 수년</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- 12 3-3 G9 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-3</span><h2>전기와 칩</h2></div><p class="sub">데이터센터 전력, 5년 만에 약 2배</p></div>
+  <div class="row" style="gap:64px">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <img class="fig" src="assets/g9_power.png" alt="데이터센터 전력 2025 485 TWh에서 2030 950 TWh" style="width:980px;height:567px">
+      <p class="src">출처: IEA, Key Questions on Energy and AI (2026) · <b>[공식]</b> · 두 시점을 이은 선</p>
+    </div>
+    <div class="col">
+      <ul class="b" style="font-size:30px">
+        <li>2025 데이터센터 전력 수요 +17%, AI 데이터센터 +50%</li>
+        <li>2030년 세계 전력의 약 3%</li>
+        <li>AI 데이터센터 전력 용량 29.6GW <span class="tag">공식</span></li>
+        <li>미국 전력망 5년간 166GW 추가 필요, 절반 이상 데이터센터 <span class="tag">보도</span></li>
+      </ul>
+    </div>
+  </div>
+  <aside class="note">[공식] IEA 2026 (iea.org/reports/key-questions-on-energy-and-ai): 485 TWh(2025) → 950 TWh(2030), AI 중심 수요 3배. [공식] AI 인덱스: AI 데이터센터 29.6GW, 그록 4 학습 배출 추정 72,816톤 CO₂e(승용차 약 1만 7천 대의 1년 배출). [보도] Grid Strategies 2025 인용(SKT 결산): 미국 166GW. 1 TWh = 10억 kWh. 그래프는 2025·2030 두 값만 이은 것이라 중간 연도 값은 아님.</aside>
+</section>
+
+<!-- 13 3-3 TripleBottleneck -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-3</span><h2>전기와 칩</h2></div><p class="sub">칩·메모리·전력: 셋 중 하나만 막혀도 정체</p></div>
+  <video class="anim" src="assets/anim/TripleBottleneck.mp4" poster="assets/anim/TripleBottleneck_poster.png" muted playsinline preload="metadata" style="width:1360px;height:680px"></video>
+  <aside class="note">manim: 세 개의 좁은 관. [보도] SKT 결산: 젠슨 황 "2년간 컴퓨팅 수요 약 100만 배", HBM 수요로 메모리 가격 130% 이상 급등, IDC "메모리 부족 2027년까지". [공식] IEA 전력 전망. 참고 [보도]: 11월 구글 'Suncatcher' 궤도 AI 추론 — 우주 데이터센터 구상까지 나올 만큼 전력·부지가 병목.</aside>
+</section>
+
+<!-- 14 3-4 비유 안전벨트 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-4</span><h2>규칙이 생기다</h2></div><p class="sub">[비유] 자동차 안전벨트</p></div>
+  <div class="row">
+    <div class="photo"><img src="assets/photos/seatbelt.jpg" alt="안전벨트 버클" style="width:760px;height:570px"><p class="credit">사진: ToddMcCann / CC BY 2.0</p></div>
+    <div class="col">
+      <h3>안전벨트·번호판 = AI 규제</h3>
+      <ul class="b">
+        <li>차를 못 타게 하는 장치가 아닌 다치지 않게 하는 장치</li>
+        <li>번호판 = "누가 만들었나" 표시 (AI 생성물 표시)</li>
+        <li>위험한 도로일수록 규칙이 촘촘 (고위험 AI)</li>
+        <li>2026 = 안전벨트 착용 의무가 시작된 해</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 15 3-4 RegTimeline -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-4</span><h2>규칙이 생기다</h2></div><p class="sub">AI 규칙의 시간표: 2026.1 → 2028.8</p></div>
+  <video class="anim" src="assets/anim/RegTimeline.mp4" poster="assets/anim/RegTimeline_poster.png" muted playsinline preload="metadata" style="width:1360px;height:680px"></video>
+  <aside class="note">manim. [공식] EU AI Act: 2026.8.2 대부분 조항 적용, 투명성 의무(AI 대화 고지, 딥페이크 표시) 시작. 디지털 옴니버스(Regulation (EU) 2026/1744, 2026.7 발효)로 고위험 AI 독립형 2027.12.2, 제품 내장형 2028.8.2로 연기 — 법률사무소 해설(Jones Walker, Orrick) 일치. [보도] 누디파이어 등 새 금지 2026.12.2. [보도] 한국 AI 기본법 2026.1.22 시행. [보도] 미국 캘리포니아 AI 투명성법 2026.1.1, 콜로라도 AI법 2026.6.30.</aside>
+</section>
+
+<!-- 16 3-4 T2 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-4</span><h2>규칙이 생기다</h2></div><p class="sub">세 지역의 서로 다른 접근</p></div>
+  <table class="tbl">
+    <tr><th style="width:16%">지역</th><th style="width:30%">접근</th><th>2026년에 시작된 것</th><th style="width:22%">앞으로</th></tr>
+    <tr><td>EU</td><td style="font-weight:500">위험 기반 규제 (위험할수록 의무 강화)</td><td style="font-weight:500">8.2 투명성 의무, 범용 AI 모델 의무·AI 사무국 집행</td><td style="font-weight:500">고위험 2027.12 / 2028.8</td></tr>
+    <tr><td>한국</td><td style="font-weight:500">진흥 + 최소 규제 (AI 기본법)</td><td style="font-weight:500">1.22 시행: 고영향·생성형 AI 사전 고지·표시 의무</td><td style="font-weight:500">과태료 최소 1년 이상 유예</td></tr>
+    <tr><td>미국</td><td style="font-weight:500">연방 단일 법 없음, 주 단위</td><td style="font-weight:500">캘리포니아 투명성법(1.1), 콜로라도 AI법(6.30)</td><td style="font-weight:500">주별로 다른 규칙</td></tr>
+  </table>
+  <p class="src">출처: EU 관보·법률사무소 해설(Jones Walker, Orrick), 법률신문·뉴스1(AI 기본법), 업계 정리 · <b>[공식]·[보도]</b></p>
+  <aside class="note">한국 과태료 예(시행령 제정안 기준) [보도]: 사전 고지 위반 1차 500만 원, 국내대리인 미지정 2,000만 원, 중소기업 등 50% 이내 감경. 고영향 AI 제공자 책무(제34조)는 과태료가 아닌 시정명령 대상. 유예되는 것은 처벌이고 의무는 시행일부터 발생한다는 해석이 다수. 유예 종료 시점은 공식 확정 전.</aside>
+</section>
+
+<!-- 17 3-4 소송·분쟁 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-4</span><h2>규칙이 생기다</h2></div><p class="sub">법정과 국제 무대에서 일어난 일</p></div>
+  <div class="grid4">
+    <div class="card"><h3>미성년자 보호</h3><p>1월 Character.AI·구글 소송 합의, 6월 미국 플로리다주가 오픈AI 상대 첫 주(州) 소송</p></div>
+    <div class="card"><h3>딥페이크</h3><p>1월 그록의 비동의 성적 이미지 생성 → 인도네시아·말레이시아·필리핀 접속 차단 후 해제</p></div>
+    <div class="card"><h3>저작권</h3><p>11월 초 언론사들의 AI 스크래핑 소송 보도, 10월 말 AI 대기업 4곳이 공통 "학습 거부 신호" 지원</p></div>
+    <div class="card"><h3>국제 협력</h3><p>2월 인도 AI 영향 정상회의(글로벌 사우스 최초), 유엔 AI 국제 과학 패널 40명 임명</p></div>
+  </div>
+  <p class="src">출처: Wikipedia 「2026 in artificial intelligence」(사실 확인 진행 중 표시), 업계 뉴스 종합 · <b>[보도]</b></p>
+  <aside class="note">모두 [보도]. 위키 연표는 "사실 확인 필요" 표시가 붙은 문서라 세부 날짜는 발표 직전 확인. 말할 것: 규제는 법조문보다 소송·사건이 먼저 움직이는 경우가 많음.</aside>
+</section>
+
+<!-- 18 3-4 직장인이 지킬 것 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-4</span><h2>규칙이 생기다</h2></div><p class="sub">직장인이 지킬 것 3가지</p></div>
+  <div class="grid3">
+    <div class="card"><p class="big" style="font-size:56px">01</p><h3>AI 생성물 표시</h3><p>고객에게 나가는 이미지·글·음성이 AI로 만든 것이면 표시</p><p style="color:var(--gray)">EU 투명성 의무, 한국 AI 기본법 표시 의무와 같은 방향</p></div>
+    <div class="card"><p class="big" style="font-size:56px">02</p><h3>입력 금지 목록</h3><p>개인정보, 고객 데이터, 영업비밀, 미공개 재무 정보는 승인된 도구에만</p><p style="color:var(--gray)">"넣은 정보는 남는다"고 가정</p></div>
+    <div class="card"><p class="big" style="font-size:56px">03</p><h3>사전 고지</h3><p>AI가 응대·판단하는 서비스면 이용자에게 미리 알림</p><p style="color:var(--gray)">AI 기본법 사전 고지 의무의 업무상 의미</p></div>
+  </div>
+  <aside class="note">강의자 정리(강의안 1.5 직장인 보강). 법률 자문이 아니며 회사별 사내 규정·법무팀 확인 필요. 근거: EU AI Act 제50조 투명성 의무 [공식], 한국 AI 기본법 사전 고지·표시 의무(제31조 등) [보도: 법률 뉴스레터].</aside>
+</section>
+
+<!-- 19 3-5 비유 사다리 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-5</span><h2>일자리와 배움</h2></div><p class="sub">[비유] 사다리</p></div>
+  <div class="row">
+    <div class="photo"><img src="assets/photos/ladder.jpg" alt="계단처럼 생긴 사다리" style="width:760px;height:570px"><p class="credit">사진: Lieutenant Pol / CC BY 2.0</p></div>
+    <div class="col">
+      <h3>사다리 = 커리어</h3>
+      <ul class="b">
+        <li>첫 칸 = 신입이 배우며 하던 단순 업무</li>
+        <li>AI가 그 단순 업무를 먼저 가져감</li>
+        <li>위 칸은 그대로인데 첫 칸이 얇아짐</li>
+        <li>첫 칸 없이는 위로 올라가기 어려움</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 20 3-5 CareerLadder -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-5</span><h2>일자리와 배움</h2></div><p class="sub">대량 실업보다 "첫 계단"이 먼저 흔들림</p></div>
+  <video class="anim" src="assets/anim/CareerLadder.mp4" poster="assets/anim/CareerLadder_poster.png" muted playsinline preload="metadata" style="width:1360px;height:680px"></video>
+  <aside class="note">manim. [보도: 2차 요약] 스탠퍼드 디지털경제연구소 "Canaries in the Coal Mine" 2026.8 업데이트: AI 노출 직종 22~25세 고용 예상보다 19% 낮음(1년 전 13%), 주로 채용 감소. [공식] AI 인덱스: AI 노출 직군 22~25세 개발자 고용 2024년 이후 약 20% 감소, 선배 개발자 증가. 원문 확인 권장.</aside>
+</section>
+
+<!-- 21 3-5 G10 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-5</span><h2>일자리와 배움</h2></div><p class="sub">"AI 때문"이라고 밝힌 감원, 그리고 반론</p></div>
+  <div class="row" style="gap:64px">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <img class="fig" src="assets/g10_layoffs.png" alt="AI 사유 감원 5월 38,579명, 10월 1,265명" style="width:980px;height:567px">
+      <p class="src">출처: Challenger, Gray &amp; Christmas (2026.1~10, 미국) · <b>[보도]</b></p>
+    </div>
+    <div class="col">
+      <h3 style="font-size:36px">반론도 함께</h3>
+      <ul class="b" style="font-size:28px">
+        <li>경제 전체 실업률 기여 약 0.15%p 추정</li>
+        <li>"AI 때문"이 재무 사정을 가리는 표현일 때도</li>
+        <li>감원 발표 ≠ 실제 AI 대체</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="note">[보도] 챌린저 집계: 2026.1~10 미국 감원 발표 중 AI를 사유로 든 것 121,401명(약 20%), 5월 정점 38,579명 → 10월 1,265명. 매달 값은 공개 자료에서 확인한 두 달만 그림. 반론 [보도]: 모건스탠리 실업률 기여 약 15bp, 일부 기업은 재무적 이유를 AI로 포장한다는 조사, MS는 감원 직무가 AI로 대체된 것이 아니라고 밝힘.</aside>
+</section>
+
+<!-- 22 3-5 직무별 영향 지도 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-5</span><h2>일자리와 배움</h2></div><p class="sub">직무별 영향 지도: 대체 / 보조 / 새로 생김</p></div>
+  <table class="tbl" style="font-size:26px">
+    <tr><th style="width:14%">직무</th><th>대체되는 업무</th><th>AI가 보조하는 업무</th><th>새로 생기는 업무</th></tr>
+    <tr><td>기획</td><td style="font-weight:500">자료 조사 초안, 회의록</td><td style="font-weight:500">시나리오 비교, 보고서 구성</td><td style="font-weight:500">AI 결과 검증·출처 확인</td></tr>
+    <tr><td>영업·마케팅</td><td style="font-weight:500">제안서 기본안, 광고 문구 변형</td><td style="font-weight:500">고객 분석, 개인화 메시지</td><td style="font-weight:500">AI 생성물 표시·브랜드 관리</td></tr>
+    <tr><td>인사</td><td style="font-weight:500">공고문, 1차 서류 분류 보조</td><td style="font-weight:500">교육 콘텐츠, 면담 준비</td><td style="font-weight:500">AI 활용 역량 교육·평가</td></tr>
+    <tr><td>재무</td><td style="font-weight:500">정형 보고서 작성</td><td style="font-weight:500">이상 거래 탐지, 예측</td><td style="font-weight:500">AI 비용(사용량) 관리</td></tr>
+    <tr><td>고객지원</td><td style="font-weight:500">반복 문의 응대</td><td style="font-weight:500">상담 요약, 답변 추천</td><td style="font-weight:500">에이전트 권한·예외 처리 설계</td></tr>
+  </table>
+  <p class="src">강의자 정리 (특정 조사 결과 아님) · 근거 흐름: 신입 채용 감소, 고객지원 직군 패턴(AI 인덱스 <b>[공식]</b>)</p>
+  <aside class="note">강의자 정리 — 연구 결과가 아니라 토론용 지도. AI 인덱스는 고객 서비스 등 다른 직군도 "신입 감소·선배 유지" 패턴이라고 보고 [공식]. 청중에게 자기 직무 행을 직접 채워 보게 함. 1차 서류 분류처럼 채용 판단에 AI를 쓰는 경우는 고영향 AI 규제 대상이 될 수 있음을 언급.</aside>
+</section>
+
+<!-- 23 3-5 G11 + 토론 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-5</span><h2>일자리와 배움</h2></div><p class="sub">배우는 사람과 바라보는 마음</p></div>
+  <div class="row" style="gap:64px">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <img class="fig" src="assets/g11_opinion.png" alt="AI 낙관 52%에서 59%, 불안 50%에서 52%" style="width:900px;height:520px">
+      <p class="src">출처: Stanford HAI, 2026 AI Index · <b>[공식]</b></p>
+    </div>
+    <div class="col">
+      <ul class="b" style="font-size:28px">
+        <li>미국 고등·대학생 5명 중 4명 학업에 AI 사용</li>
+        <li>AI 정책이 명확하다는 교사 6%</li>
+        <li>기대와 불안이 함께 상승</li>
+      </ul>
+      <div class="card"><h3 style="font-size:32px">3분 토론</h3><p>신입이 AI 시대에 "첫 계단"을 만들려면?<br>회사 입장 / 개인 입장</p></div>
+    </div>
+  </div>
+  <aside class="note">[공식] AI 인덱스 2026: 낙관 52→59%, 불안 50→52%, 학생 5명 중 4명, 학교 절반만 AI 정책, 명확하다는 교사 6%. 토론 예시 답: 회사 — 신입에게 "AI 검증자" 역할 부여, 멘토링 시간 확보 / 개인 — AI로 만든 결과를 설명·수정할 수 있는 능력 보여 주기.</aside>
+</section>
+
+<!-- 24 3-6 한국 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-6</span><h2>한국의 AI</h2></div><p class="sub">제도 · 모델 · 인프라 · 이용</p></div>
+  <div class="grid4">
+    <div class="card"><h3>제도</h3><p>AI 기본법 2026.1.22 시행, 과태료 최소 1년 이상 유예 <span class="tag">보도</span></p></div>
+    <div class="card"><h3>모델</h3><p>독자 AI 파운데이션 모델 1차 평가(1.15): LG AI연구원·SK텔레콤·업스테이지 통과 <span class="tag">공식</span></p><p style="font-size:24px;color:var(--gray)">배점 = 벤치마크 40 + 전문가 35 + 사용자 25</p></div>
+    <div class="card"><h3>인프라</h3><p>SK, 울산 1GW급 AI 데이터센터부터 2029년 5GW, 이후 15GW 계획 <span class="tag">보도</span></p></div>
+    <div class="card"><h3>이용</h3><p>생산가능인구 40.6% 사용(세계 12위), 설문 이용 경험 85% <span class="tag">보도</span></p></div>
+  </div>
+  <aside class="note">[공식] 정책브리핑 2026.1.15: 1차 단계평가. 네이버클라우드는 성능 상위였으나 비전 인코더가 중국 Qwen 2.5와 코사인 유사도 99.51%로 "독자성" 기준 미충족 [보도]. 정예팀 모델 5개 모두 Epoch AI 주목할 모델 등재 [공식]. 이후 추가 선정·2차 평가 결과는 2차 자료라 [추적] — 슬라이드에서 뺌. [보도] SK 계획은 6.29 국민보고회 발표(SKT 결산). [보도] 11월 리벨리온·엔비디아 소버린 AI 인프라 협력. 이용률: MS 보고서 2분기 40.6% / 인크로스 설문 85% (측정 방법이 다름 — 파트 1 참고). 소버린 AI = 식량 자급처럼 핵심 AI를 직접 만들 능력.</aside>
+</section>
+
+<!-- 25 3-7 체크리스트 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-7</span><h2>2027을 내다보며</h2></div><p class="sub">지켜볼 5가지 + 나를 위한 AI 리터러시 5원칙</p></div>
+  <div class="row" style="gap:48px;align-items:stretch">
+    <div class="card" style="flex:1">
+      <h3>2027 체크리스트</h3>
+      <ul class="b" style="font-size:28px">
+        <li>에이전트: 하루(8시간) 업무를 맡길 수 있나</li>
+        <li>돈: 매출이 설비투자를 따라잡나</li>
+        <li>전기: 전력이 병목이 되나</li>
+        <li>규칙: EU 고위험(2027.12), 한국 유예 종료</li>
+        <li>일자리: 신입 채용이 회복되나</li>
+      </ul>
+    </div>
+    <div class="card" style="flex:1">
+      <h3>AI 리터러시 5원칙</h3>
+      <ul class="b" style="font-size:28px">
+        <li>출처 확인: 공식·보도·주장 구분</li>
+        <li>권한 최소화: 필요한 열쇠만</li>
+        <li>검증 습관: 숫자·인용·코드 재확인</li>
+        <li>개인정보 주의: 넣은 정보는 남음</li>
+        <li>매일 조금씩: 일 하나를 AI와 함께</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="note">강의안 3-7. 체크리스트 1번은 파트 2의 METR 시간 지평과 연결(최신 측정 16시간 이상이지만 측정 한계 근처, 자동화 정도와 같지 않음). 2번은 3-2 저울, 3번은 3-3, 4번은 3-4, 5번은 3-5.</aside>
+</section>
+
+<!-- 26 3-7 월요일 카드 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-7</span><h2>2027을 내다보며</h2></div><p class="sub">활동: 다음 주 월요일에 해 볼 AI 업무 1가지</p></div>
+  <div class="monday">
+    <p style="font-size:40px;font-weight:900">나의 월요일 AI 카드</p>
+    <div class="line">① 맡길 업무 (30분~2시간짜리 하나)</div>
+    <div class="line">② AI가 할 단계 / 내가 확인할 단계</div>
+    <div class="line">③ 넣지 않을 정보 (개인정보·영업비밀)</div>
+    <div class="line">④ 성공 기준 (시간·품질 중 무엇을 잴까)</div>
+  </div>
+  <aside class="note">3분 작성 후 짝과 1분씩 공유. 파트 2의 "내 업무 하나를 에이전트에게" 워크시트를 실제 계획으로 바꾸는 활동. 성공 기준은 3-2의 "측정 가능한 효과" 질문과 연결.</aside>
+</section>
+
+<!-- 27 정리·마무리 -->
+<section class="slide">
+  <div class="head"><div class="t"><span class="badge">3-8</span><h2>정리</h2></div><p class="sub">말하는 AI에서 일하는 AI로 — 그리고 그 비용</p></div>
+  <div class="row" style="gap:80px">
+    <div class="col" style="gap:20px">
+      <h3 style="font-size:36px">파트 3 핵심 4줄</h3>
+      <ul class="b" style="font-size:30px">
+        <li>돈: 투자 급증, 매출이 따라잡는지가 거품 논쟁의 핵심</li>
+        <li>전기: 데이터센터 전력 2030년까지 약 2배 전망</li>
+        <li>규칙: 2026 = 투명성 의무 시작의 해</li>
+        <li>일자리: 해고보다 신입 채용 감소가 먼저</li>
+      </ul>
+      <p style="font-size:28px;padding-top:24px"><a href="quiz.html" style="color:var(--red);font-weight:700">▶ 파트 3 웹 퀴즈</a>&nbsp;&nbsp;&nbsp;<a href="playground.html" style="color:var(--red);font-weight:700">▶ 거품 저울·전력 놀이터</a></p>
+      <p style="font-size:26px"><a href="../02/index.html#1" style="color:var(--gray)">◀ 이전: 파트 2</a>&nbsp;&nbsp;&nbsp;<a href="../01/index.html#1" style="color:var(--gray)">처음으로: 파트 1</a></p>
+    </div>
+    <img class="fig" src="assets/cover.png" alt="높아지는 막대 그림" style="width:420px;height:557px">
+  </div>
+  <aside class="note">퀴즈 7문항 + Q&amp;A. 한 문장 회수: "2026년은 AI가 대답하는 도구에서 일을 맡기는 동료로 바뀐 해. 그 대가로 돈·전기·규칙·일자리 문제가 한꺼번에." 발표 1주 전에 3-2 시장 상황, 앤트로픽 상장 진행을 최신화.</aside>
+</section>
+
+<!-- 28 출처 -->
+<section class="slide">
+  <div class="head"><h2>이미지·자료 출처</h2><p class="sub">사진 (Openverse 검색, CC 라이선스) · 데이터</p></div>
+  <ul class="b" style="font-size:22px;line-height:1.6">
+    <li>balance scale — winnifredxoxo, CC BY 2.0, <a href="https://www.flickr.com/photos/61056899@N06/5751301741">flickr</a></li>
+    <li>Data Center — Cory M. Grenier, CC BY-SA 2.0, <a href="https://www.flickr.com/photos/26087974@N05/11387253605">flickr</a></li>
+    <li>Power lines — liftarn, CC BY-SA 2.0, <a href="https://www.flickr.com/photos/8543480@N06/19427283029">flickr</a></li>
+    <li>Seat belt lock — ToddMcCann, CC BY 2.0, <a href="https://www.flickr.com/photos/53118898@N04/14891789752">flickr</a></li>
+    <li>ladder — Lieutenant Pol, CC BY 2.0, <a href="https://www.flickr.com/photos/8724931@N07/3612150738">flickr</a></li>
+    <li>데이터: Stanford HAI 2026 AI Index [공식] · IEA Key Questions on Energy and AI 2026 [공식] · SK텔레콤 뉴스룸 2026 상반기 결산 [보도] · Challenger, Gray &amp; Christmas [보도] · EU AI Act·디지털 옴니버스 해설(Jones Walker, Orrick) · 정책브리핑(독자 AI 1차 평가) [공식] · 법률신문·뉴스1(AI 기본법) [보도] · ZDNet Korea(이용률) [보도] · Wikipedia 2026 in AI [보도]</li>
+    <li>그래프·애니메이션 — matplotlib, manim으로 직접 제작</li>
+  </ul>
+</section>
+
+</div>
+<div class="notes"></div>
+<div class="bar">
+  <a href="../index.html">← 목록</a>
+  <button data-act="prev">◀</button><span class="count"></span><button data-act="next">▶</button>
+  <span class="grow">← → 이동 · F 전체 화면 · N 노트</span>
+  <a href="quiz.html">퀴즈</a><a href="playground.html">놀이터</a>
+  <button data-act="notes">노트</button><button data-act="full">전체 화면</button>
+</div>
+<script src="../assets/deck.js"></script>
+</body>
+</html>
